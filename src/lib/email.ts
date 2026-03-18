@@ -71,7 +71,8 @@ export function candidatureConfirmationEmail(name: string, referenceId: string):
   `;
 }
 
-export function adminNotificationEmail(type: string, details: string): string {
+export function adminNotificationEmail(type: string, ...args: string[]): string {
+  const details = args.join(" — ");
   return `
     <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #fff;">
       <div style="background: #1A1A1A; padding: 30px; text-align: center;">
@@ -80,7 +81,7 @@ export function adminNotificationEmail(type: string, details: string): string {
       <div style="padding: 40px 30px;">
         <h2 style="color: #1A1A1A;">Nouvelle notification : ${type}</h2>
         <div style="background: #F9F9F9; padding: 20px; margin: 20px 0; border-radius: 8px;">
-          ${details}
+          <p>${details}</p>
         </div>
         <p>Connectez-vous au back-office pour gérer cette notification.</p>
       </div>

@@ -20,7 +20,7 @@ export default function LogementsPage() {
     page: 1,
     limit: 12,
     search: searchParams.get("search") || undefined,
-    type: searchParams.get("type") || undefined,
+    type: (searchParams.get("type") as ListingFilters["type"]) || undefined,
     sort: (searchParams.get("sort") as ListingFilters["sort"]) || "date_desc",
   });
 

@@ -35,3 +35,4 @@ async function dbConnect(): Promise<typeof mongoose> {
 }
 
 export default dbConnect;
+export { dbConnect as connectDB };

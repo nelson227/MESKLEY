@@ -53,7 +53,7 @@ export const rentalApplicationSchema = z.object({
   guarantorPhone: z.string().max(20).optional().nullable(),
   guarantorIncome: z.number().nonnegative().optional().nullable(),
   message: z.string().max(2000).optional().nullable(),
-  acceptTerms: z.literal(true, { errorMap: () => ({ message: "Vous devez accepter les conditions" }) }),
+  acceptTerms: z.literal(true, { message: "Vous devez accepter les conditions" }),
 });
 
 export const jobApplicationSchema = z.object({
@@ -65,7 +65,7 @@ export const jobApplicationSchema = z.object({
   yearsExperience: z.enum(["0-1", "1-3", "3-5", "5-10", "10+"]),
   availability: z.enum(["immediate", "1_mois", "3_mois"]),
   message: z.string().max(2000).optional().nullable(),
-  acceptTerms: z.literal(true, { errorMap: () => ({ message: "Vous devez accepter les conditions" }) }),
+  acceptTerms: z.literal(true, { message: "Vous devez accepter les conditions" }),
 });
 
 export const contactSchema = z.object({

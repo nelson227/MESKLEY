@@ -33,7 +33,8 @@ export default function RentalApplicationForm() {
   const listingId = searchParams.get("id") || "";
 
   const methods = useForm<FormData>({
-    resolver: zodResolver(rentalApplicationSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(rentalApplicationSchema) as any,
     defaultValues: {
       hasGuarantor: false,
       acceptTerms: undefined as unknown as true,

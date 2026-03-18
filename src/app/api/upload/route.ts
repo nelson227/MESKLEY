@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     });
 
     const results = await Promise.all(uploadPromises);
-    const urls = results.map((r) => r.secure_url);
+    const urls = results.map((r) => r.url);
 
     await Listing.findByIdAndUpdate(listingId, { $push: { photos: { $each: urls } } });
 

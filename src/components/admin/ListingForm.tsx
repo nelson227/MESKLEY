@@ -22,7 +22,8 @@ export default function ListingForm({ initialData }: ListingFormProps) {
   const isEdit = !!initialData?._id;
 
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormData>({
-    resolver: zodResolver(listingSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(listingSchema) as any,
     defaultValues: {
       type: "appartement",
       status: "brouillon",

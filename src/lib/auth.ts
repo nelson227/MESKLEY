@@ -37,3 +37,9 @@ export function getTokenFromHeader(authHeader: string | null): string | null {
   if (!authHeader?.startsWith("Bearer ")) return null;
   return authHeader.slice(7);
 }
+
+export function extractToken(request: { headers: { get(name: string): string | null } }): string | null {
+  return getTokenFromHeader(request.headers.get("authorization"));
+}
+
+export const comparePassword = verifyPassword;

@@ -4,13 +4,14 @@ import { SOCIAL_LINKS } from "@/constants/social";
 
 interface ConfirmationPageProps {
   title: string;
-  referenceId: string;
-  message: string;
+  referenceId?: string;
+  message?: string;
+  description?: string;
   backLink: string;
   backLabel: string;
 }
 
-export default function ConfirmationPage({ title, referenceId, message, backLink, backLabel }: ConfirmationPageProps) {
+export default function ConfirmationPage({ title, referenceId, message, description, backLink, backLabel }: ConfirmationPageProps) {
   return (
     <div className="min-h-[60vh] flex items-center justify-center px-4">
       <div className="max-w-md w-full text-center">
@@ -20,11 +21,13 @@ export default function ConfirmationPage({ title, referenceId, message, backLink
         <h1 className="text-2xl font-bold text-black mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
           {title}
         </h1>
-        <div className="bg-white-off border-l-4 border-gold p-4 rounded-r-lg my-6">
-          <p className="text-sm text-gray mb-1">Votre référence :</p>
-          <p className="text-2xl font-bold text-gold">{referenceId}</p>
-        </div>
-        <p className="text-gray text-sm mb-8">{message}</p>
+        {referenceId && (
+          <div className="bg-white-off border-l-4 border-gold p-4 rounded-r-lg my-6">
+            <p className="text-sm text-gray mb-1">Votre référence :</p>
+            <p className="text-2xl font-bold text-gold">{referenceId}</p>
+          </div>
+        )}
+        <p className="text-gray text-sm mb-8">{message || description}</p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             href={backLink}

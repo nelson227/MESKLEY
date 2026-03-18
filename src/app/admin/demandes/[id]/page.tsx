@@ -110,10 +110,10 @@ export default function DemandeDetailPage() {
         {app.hasGuarantor && (
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h3 className="font-semibold mb-4">Garant</h3>
-            {info("Nom", app.guarantorName)}
-            {info("Lien", app.guarantorRelation)}
-            {info("Téléphone", app.guarantorPhone)}
-            {info("Revenu", app.guarantorIncome ? formatPrice(app.guarantorIncome) : null)}
+            {info("Nom", app.guarantor?.fullName)}
+            {info("Lien", app.guarantor?.relationship)}
+            {info("Téléphone", app.guarantor?.phone)}
+            {info("Revenu", app.guarantor?.monthlyIncome ? formatPrice(app.guarantor.monthlyIncome) : null)}
           </div>
         )}
       </div>

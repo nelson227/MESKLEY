@@ -10,17 +10,18 @@ export function formatDate(date: string): string {
   }).format(new Date(date));
 }
 
-export function generateReference(prefix: string, count: number): string {
+export function generateReference(prefix?: string, count?: number): string {
   const year = new Date().getFullYear();
-  const num = String(count).padStart(3, "0");
-  return `MLK-${prefix}-${year}-${num}`;
+  const rand = count !== undefined ? String(count).padStart(3, "0") : String(Math.floor(Math.random() * 100000)).padStart(5, "0");
+  if (prefix) return `MLK-${prefix}-${year}-${rand}`;
+  return `MLK-${year}-${rand}`;
 }
 
-export function generateDossierId(count: number): string {
+export function generateDossierId(count?: number): string {
   return generateReference("DEM", count);
 }
 
-export function generateCandidatureId(count: number): string {
+export function generateCandidatureId(count?: number): string {
   return generateReference("CAND", count);
 }
 
