@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function PolitiqueConfidentialitePage() {
   return (
-    <div className="pt-24 pb-16">
+    <div className="pt-32 pb-16">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <Breadcrumbs items={[{ label: "Politique de confidentialité" }]} />
         <h1 className="text-3xl font-bold text-black mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>

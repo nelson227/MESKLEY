@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Menu, X, Home } from "lucide-react";
 import { NAV_LINKS } from "@/constants/navigation";
@@ -9,6 +10,8 @@ import MobileMenu from "./MobileMenu";
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -16,11 +19,14 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Sur les pages internes, toujours afficher le header opaque
+  const showOpaque = !isHome || isScrolled;
+
   return (
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
+          showOpaque
             ? "bg-white/95 backdrop-blur-md shadow-lg py-3"
             : "bg-transparent py-5"
         }`}
@@ -31,7 +37,7 @@ export default function Header() {
             <Home className="w-8 h-8 text-gold" />
             <span
               className={`text-xl font-bold tracking-wide transition-colors ${
-                isScrolled ? "text-black" : "text-white"
+                showOpaque ? "text-black" : "text-white"
               }`}
               style={{ fontFamily: "'Playfair Display', serif" }}
             >
@@ -46,7 +52,7 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 className={`text-sm font-medium transition-colors hover:text-gold ${
-                  isScrolled ? "text-black-deep" : "text-white"
+                  showOpaque ? "text-black-deep" : "text-white"
                 }`}
               >
                 {link.label}
@@ -67,9 +73,9 @@ export default function Header() {
             aria-label="Ouvrir le menu"
           >
             {isMobileMenuOpen ? (
-              <X className={`w-6 h-6 ${isScrolled ? "text-black" : "text-white"}`} />
+              <X className={`w-6 h-6 ${showOpaque ? "text-black" : "text-white"}`} />
             ) : (
-              <Menu className={`w-6 h-6 ${isScrolled ? "text-black" : "text-white"}`} />
+              <Menu className={`w-6 h-6 ${showOpaque ? "text-black" : "text-white"}`} />
             )}
           </button>
         </div>

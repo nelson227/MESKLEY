@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function DemandeLocationPage() {
   return (
-    <div className="pt-24 pb-16 bg-white-off min-h-screen">
+    <div className="pt-32 pb-16 bg-white-off min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <Breadcrumbs items={[{ label: "Demande de location" }]} />
 

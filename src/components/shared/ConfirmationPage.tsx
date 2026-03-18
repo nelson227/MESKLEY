@@ -13,7 +13,7 @@ interface ConfirmationPageProps {
 
 export default function ConfirmationPage({ title, referenceId, message, description, backLink, backLabel }: ConfirmationPageProps) {
   return (
-    <div className="min-h-[60vh] flex items-center justify-center px-4">
+    <div className="min-h-[60vh] flex items-center justify-center px-4 pt-32">
       <div className="max-w-md w-full text-center">
         <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
           <CheckCircle className="w-10 h-10 text-success" />
