@@ -65,7 +65,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
             zIndex: 0,
           }}
         >
-          <div style={{ color: "#C8A95E", opacity: 0.15, fontSize: "48px", fontWeight: 800, fontFamily: "serif", letterSpacing: "4px", userSelect: "none", whiteSpace: "nowrap" }}>
+          <div style={{ color: "#C8A95E", opacity: 1, fontSize: "48px", fontWeight: 800, fontFamily: "serif", letterSpacing: "4px", userSelect: "none", whiteSpace: "nowrap" }}>
             MESKLEY
           </div>
         </div>
