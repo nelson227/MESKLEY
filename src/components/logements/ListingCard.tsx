@@ -51,11 +51,10 @@ export default function ListingCard({ listing }: ListingCardProps) {
 
       {/* Infos avec logo en fond */}
       <div className="relative p-5 overflow-hidden bg-white">
-        {/* Logo en arrière-plan */}
-        <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none"
-        >
-          <img src="/logo.png" alt="" className="w-24 h-24 object-contain opacity-[0.08]" />
+        {/* Logo en arrière-plan — watermark centré à droite */}
+        <div className="absolute -right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="" className="w-28 h-28 object-contain opacity-15" />
         </div>
         <div className="relative">
           <h3
