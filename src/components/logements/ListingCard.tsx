@@ -50,7 +50,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
       </div>
 
       {/* Infos avec logo en arrière-plan */}
-      <div className="relative p-5" style={{ overflow: "hidden", background: "#fff" }}>
+      <div className="relative p-5" style={{ overflow: "hidden", background: "#000" }}>
         {/* Logo SVG watermark - grand, centré, couvre toute la zone */}
         {/* Watermark MESKLEY */}
         <div
