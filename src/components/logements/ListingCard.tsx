@@ -49,24 +49,36 @@ export default function ListingCard({ listing }: ListingCardProps) {
         </div>
       </div>
 
-      {/* Infos avec image de fond */}
-      <div className="relative p-5" style={{ overflow: "hidden" }}>
-        {/* Image de fond */}
-        <img
-          src="/fond-de-page.png"
-          alt=""
+      {/* Infos avec logo en arrière-plan */}
+      <div className="relative p-5" style={{ overflow: "hidden", background: "#fff" }}>
+        {/* Logo SVG watermark */}
+        <svg
           aria-hidden="true"
+          viewBox="0 0 120 120"
           style={{
             position: "absolute",
-            inset: "0",
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            opacity: 0.25,
+            right: "8px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            width: "100px",
+            height: "100px",
+            opacity: 0.08,
             pointerEvents: "none",
-            zIndex: 0,
           }}
-        />
+        >
+          {/* Maison stylisée */}
+          <path d="M60 10 L15 50 L25 50 L25 95 L50 95 L50 65 L70 65 L70 95 L95 95 L95 50 L105 50 Z" fill="#C8A95E" />
+          {/* Cheminée */}
+          <rect x="75" y="22" width="10" height="20" fill="#C8A95E" />
+          {/* Porte */}
+          <rect x="52" y="70" width="16" height="25" rx="2" fill="#fff" />
+          {/* Fenêtre gauche */}
+          <rect x="32" y="55" width="14" height="14" rx="1" fill="#fff" />
+          {/* Fenêtre droite */}
+          <rect x="74" y="55" width="14" height="14" rx="1" fill="#fff" />
+          {/* Texte MESKLEY */}
+          <text x="60" y="112" textAnchor="middle" fontSize="11" fontWeight="bold" fontFamily="serif" fill="#C8A95E">MESKLEY</text>
+        </svg>
         <div style={{ position: "relative", zIndex: 1 }}>
           <h3
             className="text-lg font-semibold text-black mb-2 group-hover:text-gold transition-colors line-clamp-1"
