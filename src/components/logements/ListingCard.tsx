@@ -50,12 +50,13 @@ export default function ListingCard({ listing }: ListingCardProps) {
       </div>
 
       {/* Infos avec logo en fond */}
-      <div className="relative p-5 overflow-hidden">
+      <div className="relative p-5 overflow-hidden bg-white">
         {/* Logo en arrière-plan */}
         <div
-          className="absolute inset-0 opacity-[0.04] bg-no-repeat bg-center bg-contain pointer-events-none"
-          style={{ backgroundImage: "url('/logo.png')" }}
-        />
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        >
+          <img src="/logo.png" alt="" className="w-24 h-24 object-contain opacity-[0.08]" />
+        </div>
         <div className="relative">
           <h3
             className="text-lg font-semibold text-black mb-2 group-hover:text-gold transition-colors line-clamp-1"
