@@ -51,18 +51,18 @@ export default function ListingCard({ listing }: ListingCardProps) {
 
       {/* Infos avec logo en arrière-plan */}
       <div className="relative p-5" style={{ overflow: "hidden", background: "#fff" }}>
-        {/* Logo SVG watermark */}
+        {/* Logo SVG watermark - grand, centré, couvre toute la zone */}
         <svg
           aria-hidden="true"
           viewBox="0 0 120 120"
           style={{
             position: "absolute",
-            right: "8px",
+            left: "50%",
             top: "50%",
-            transform: "translateY(-50%)",
-            width: "100px",
-            height: "100px",
-            opacity: 0.08,
+            transform: "translate(-50%, -50%)",
+            width: "180px",
+            height: "180px",
+            opacity: 0.07,
             pointerEvents: "none",
           }}
         >
