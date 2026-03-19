@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import ConditionalFooter from "@/components/layout/ConditionalFooter";
 import BackToTop from "@/components/shared/BackToTop";
 import Providers from "@/components/Providers";
 
@@ -58,7 +58,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           <main className="flex-1">{children}</main>
-          <Footer />
+          <ConditionalFooter />
           <BackToTop />
         </Providers>
       </body>

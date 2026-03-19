@@ -80,14 +80,22 @@ export default function AdminSidebar() {
 
   return (
     <>
-      {/* Bouton hamburger mobile */}
-      <button
-        onClick={() => setOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-black-deep text-white rounded-lg shadow-lg"
-        aria-label="Ouvrir le menu"
-      >
-        <Menu className="w-5 h-5" />
-      </button>
+      {/* Top bar mobile : logo à gauche, hamburger à droite */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-black-deep text-white flex items-center justify-between px-4 py-3 shadow-lg">
+        <Link href="/admin" className="flex items-center gap-2">
+          <Image src="/logo.png" alt="MESKLEY" width={28} height={28} className="rounded-sm object-contain" />
+          <span className="text-sm font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>
+            MESKLEY <span className="text-gold">ADMIN</span>
+          </span>
+        </Link>
+        <button
+          onClick={() => setOpen(true)}
+          className="p-2 text-white hover:text-gold transition-colors"
+          aria-label="Ouvrir le menu"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+      </div>
 
       {/* Sidebar Desktop */}
       <aside className="hidden lg:flex w-64 min-h-screen bg-black-deep text-white flex-col fixed left-0 top-0">

@@ -14,11 +14,16 @@ export default function Header() {
   const pathname = usePathname();
   const isHome = pathname === "/";
 
+  // Cacher le header du site sur les pages admin (sauf login)
+  const isAdmin = pathname.startsWith("/admin") && pathname !== "/admin/login";
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  if (isAdmin) return null;
 
   // Sur les pages internes, toujours afficher le header opaque
   const showOpaque = !isHome || isScrolled;

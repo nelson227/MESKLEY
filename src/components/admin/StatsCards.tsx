@@ -17,10 +17,10 @@ interface StatsCardsProps {
 
 export default function StatsCards({ stats }: StatsCardsProps) {
   const cards = [
-    { label: "Logements", value: stats.totalListings, sub: `${stats.availableListings} disponibles`, icon: Home, color: "bg-blue-50 text-blue-600" },
-    { label: "Demandes", value: stats.totalApplications, sub: `${stats.pendingApplications} en attente`, icon: FileText, color: "bg-yellow-50 text-yellow-600" },
-    { label: "Candidatures", value: stats.totalCandidatures, sub: "total", icon: Users, color: "bg-green-50 text-green-600" },
-    { label: "Messages", value: stats.unreadMessages, sub: "non lus", icon: TrendingUp, color: "bg-red-50 text-red-600" },
+    { label: "Logements", value: stats.totalListings ?? 0, sub: `${stats.availableListings ?? 0} disponibles`, icon: Home, color: "bg-blue-50 text-blue-600" },
+    { label: "Demandes", value: stats.totalApplications ?? 0, sub: `${stats.pendingApplications ?? 0} en attente`, icon: FileText, color: "bg-yellow-50 text-yellow-600" },
+    { label: "Candidatures", value: stats.totalCandidatures ?? 0, sub: "total", icon: Users, color: "bg-green-50 text-green-600" },
+    { label: "Messages", value: stats.unreadMessages ?? 0, sub: "non lus", icon: TrendingUp, color: "bg-red-50 text-red-600" },
   ];
 
   return (
