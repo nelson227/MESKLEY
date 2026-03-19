@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Home, Facebook, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react";
+import Image from "next/image";
+import { Facebook, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react";
 import { SOCIAL_LINKS, CONTACT_INFO } from "@/constants/social";
 
 export default function Footer() {
@@ -10,7 +11,7 @@ export default function Footer() {
           {/* Logo & Description */}
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <Home className="w-8 h-8 text-gold" />
+              <Image src="/logo.png" alt="MESKLEY" width={40} height={40} className="rounded-sm object-contain" />
               <span className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>
                 MESKLEY <span className="text-gold">LOCATION</span>
               </span>

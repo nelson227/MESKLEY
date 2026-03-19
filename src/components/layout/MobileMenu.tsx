@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { X, Home } from "lucide-react";
+import Image from "next/image";
+import { X } from "lucide-react";
 import { NAV_LINKS } from "@/constants/navigation";
 
 interface MobileMenuProps {
@@ -21,7 +22,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       <div className="absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl">
         <div className="flex items-center justify-between p-6 border-b border-gray-light">
           <Link href="/" className="flex items-center gap-2" onClick={onClose}>
-            <Home className="w-6 h-6 text-gold" />
+            <Image src="/logo.png" alt="MESKLEY" width={32} height={32} className="rounded-sm object-contain" />
             <span className="font-bold text-lg text-black" style={{ fontFamily: "'Playfair Display', serif" }}>
               MESKLEY <span className="text-gold">LOCATION</span>
             </span>

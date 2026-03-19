@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Home, Building, FileText, Users, LogOut, LayoutDashboard } from "lucide-react";
 import { ADMIN_NAV_LINKS } from "@/constants/navigation";
@@ -25,7 +26,7 @@ export default function AdminSidebar() {
       {/* Logo */}
       <div className="p-6 border-b border-white/10">
         <Link href="/admin/dashboard" className="flex items-center gap-2">
-          <Home className="w-6 h-6 text-gold" />
+          <Image src="/logo.png" alt="MESKLEY" width={32} height={32} className="rounded-sm object-contain" />
           <span className="font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
             MESKLEY <span className="text-gold">ADMIN</span>
           </span>
