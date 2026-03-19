@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import StatsCards from "@/components/admin/StatsCards";
+import { apiUrl } from "@/lib/api";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { formatDate, getStatusLabel, getStatusColor } from "@/lib/utils";
 import Link from "next/link";
@@ -30,7 +31,7 @@ export default function AdminDashboardPage() {
     const fetchStats = async () => {
       try {
         const token = localStorage.getItem("admin_token");
-        const res = await fetch("/api/admin/stats", {
+        const res = await fetch(apiUrl("/api/admin/stats"), {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();

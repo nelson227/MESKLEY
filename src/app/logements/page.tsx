@@ -6,6 +6,7 @@ import ListingCard from "@/components/logements/ListingCard";
 import ListingFiltersBar from "@/components/logements/ListingFilters";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { apiUrl } from "@/lib/api";
 import EmptyState from "@/components/shared/EmptyState";
 import { Home } from "lucide-react";
 import type { ListingFilters, ListingCardData } from "@/types/listing";
@@ -31,7 +32,7 @@ export default function LogementsPage() {
       Object.entries(filters).forEach(([k, v]) => {
         if (v !== undefined && v !== null && v !== "") params.set(k, String(v));
       });
-      const res = await fetch(`/api/logements?${params}`);
+      const res = await fetch(apiUrl(`/api/logements?${params}`));
       const data = await res.json();
       if (data.success) {
         setListings(data.data || []);

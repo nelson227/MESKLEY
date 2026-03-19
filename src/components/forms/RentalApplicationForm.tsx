@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { rentalApplicationSchema } from "@/lib/validations";
+import { apiUrl } from "@/lib/api";
 import { FAMILY_STATUS_OPTIONS, EMPLOYMENT_STATUS_OPTIONS, EMPLOYMENT_DURATION_OPTIONS, RENTAL_DURATION_OPTIONS, CURRENT_STATUS_OPTIONS } from "@/constants/filters";
 import FormStepper from "./FormStepper";
 import FileUpload from "./FileUpload";
@@ -72,7 +73,7 @@ export default function RentalApplicationForm() {
       if (files.income) formData.append("income", files.income);
       if (files.contract) formData.append("contract", files.contract);
 
-      const res = await fetch("/api/demandes-location", { method: "POST", body: formData });
+      const res = await fetch(apiUrl("/api/demandes-location"), { method: "POST", body: formData });
       const result = await res.json();
 
       if (!res.ok) throw new Error(result.error || "Erreur lors de l'envoi");

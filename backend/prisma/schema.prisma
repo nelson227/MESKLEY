@@ -1,0 +1,222 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ListingType {
+  appartement
+  studio
+  maison
+  villa
+  chambre
+  duplex
+}
+
+enum ListingStatus {
+  brouillon
+  disponible
+  reserve
+  loue
+  retire
+}
+
+enum FamilyStatus {
+  celibataire
+  marie
+  divorce
+  veuf
+  concubinage
+}
+
+enum EmploymentStatus {
+  salarie
+  independant
+  fonctionnaire
+  etudiant
+  retraite
+  sans_emploi
+}
+
+enum ApplicationStatus {
+  nouveau
+  en_attente
+  en_examen
+  acceptee
+  refusee
+}
+
+enum CurrentStatus {
+  locataire
+  proprietaire
+  heberge
+  autre
+}
+
+enum EducationLevel {
+  bac
+  bac2
+  bac3
+  bac45
+  doctorat
+  autre
+}
+
+enum JobAvailability {
+  immediate
+  un_mois    @map("1_mois")
+  trois_mois @map("3_mois")
+}
+
+enum JobAppStatus {
+  nouveau
+  recue
+  en_etude
+  entretien
+  acceptee
+  non_retenue
+}
+
+enum ContactSubject {
+  logement
+  renseignement
+  partenariat
+  autre
+}
+
+enum AdminRole {
+  admin
+  super_admin
+}
+
+model Listing {
+  id                     String        @id @default(cuid())
+  reference              String        @unique
+  title                  String
+  description            String
+  type                   ListingType
+  price                  Float
+  deposit                Float
+  charges                Float         @default(0)
+  chargesIncluded        Boolean       @default(false)
+  surface                Float
+  rooms                  Int
+  bedrooms               Int
+  bathrooms              Int
+  floor                  Int?
+  furnished              Boolean
+  availableDate          DateTime
+  status                 ListingStatus @default(brouillon)
+  address                String
+  city                   String
+  neighborhood           String
+  latitude               Float
+  longitude              Float
+  photos                 String[]
+  mainPhotoIndex         Int           @default(0)
+  features               String[]
+  facebookMarketplaceUrl String?
+  messengerLink          String        @default("")
+  viewCount              Int           @default(0)
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+
+  rentalApplications RentalApplication[]
+
+  @@index([city, neighborhood])
+  @@index([price])
+  @@index([status])
+  @@index([type])
+}
+
+model RentalApplication {
+  id                 String           @id @default(cuid())
+  dossierId          String           @unique
+  fullName           String
+  birthDate          DateTime
+  phone              String
+  email              String
+  idNumber           String
+  nationality        String
+  familyStatus       FamilyStatus
+  householdSize      Int
+  employmentStatus   EmploymentStatus
+  employerName       String?
+  jobTitle           String?
+  monthlyIncome      Float
+  employmentDuration String?
+  listingId          String?
+  listing            Listing?         @relation(fields: [listingId], references: [id])
+  desiredMoveIn      DateTime
+  desiredDuration    String
+  maxBudget          Float
+  currentAddress     String?
+  currentStatus      CurrentStatus?
+  movingReason       String?
+  hasGuarantor       Boolean          @default(false)
+  guarantorName      String?
+  guarantorRelation  String?
+  guarantorPhone     String?
+  guarantorIncome    Float?
+  idDocument         String
+  incomeProof        String?
+  addressProof       String?
+  otherDocuments     String[]
+  message            String?
+  status             ApplicationStatus @default(nouveau)
+  adminNotes         String?
+  acceptTerms        Boolean          @default(true)
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  @@index([status])
+  @@index([dossierId])
+}
+
+model JobApplication {
+  id              String          @id @default(cuid())
+  referenceId     String          @unique
+  fullName        String
+  email           String
+  phone           String
+  desiredPosition String
+  educationLevel  EducationLevel
+  yearsExperience String
+  availability    JobAvailability
+  cvUrl           String
+  coverLetterUrl  String?
+  message         String?
+  status          JobAppStatus    @default(nouveau)
+  adminNotes      String?
+  acceptTerms     Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([status])
+  @@index([referenceId])
+}
+
+model ContactMessage {
+  id        String         @id @default(cuid())
+  fullName  String
+  email     String
+  subject   ContactSubject
+  message   String
+  read      Boolean        @default(false)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  role         AdminRole @default(admin)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}

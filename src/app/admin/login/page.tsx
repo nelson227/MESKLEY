@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/lib/validations";
+import { apiUrl } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -21,7 +22,7 @@ export default function AdminLoginPage() {
   const onSubmit = async (data: FormData) => {
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch(apiUrl("/api/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -30,6 +31,7 @@ export default function AdminLoginPage() {
       if (!res.ok) throw new Error(result.error || "Erreur de connexion");
 
       localStorage.setItem("admin_token", result.data.token);
+      document.cookie = `admin_token=${result.data.token}; path=/; max-age=${60 * 60 * 24}; SameSite=Lax`;
       router.push("/admin");
       router.refresh();
     } catch (err: unknown) {

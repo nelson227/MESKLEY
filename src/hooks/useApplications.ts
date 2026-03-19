@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { apiUrl } from "@/lib/api";
 
 function getToken() {
   if (typeof window === "undefined") return null;
@@ -9,7 +10,7 @@ function getToken() {
 
 async function fetchApplications() {
   const token = getToken();
-  const res = await fetch("/api/demandes-location", {
+  const res = await fetch(apiUrl("/api/demandes-location"), {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (!res.ok) throw new Error("Erreur");
@@ -26,7 +27,7 @@ export function useApplications() {
 
 async function fetchCandidatures() {
   const token = getToken();
-  const res = await fetch("/api/candidatures", {
+  const res = await fetch(apiUrl("/api/candidatures"), {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (!res.ok) throw new Error("Erreur");

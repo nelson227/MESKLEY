@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 
-const secret = new TextEncoder().encode(process.env.NEXTAUTH_SECRET || "meskley-secret-key-2024");
+const secret = new TextEncoder().encode(process.env.JWT_SECRET || "meskley-secret-key-2024");
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

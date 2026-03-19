@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { apiUrl } from "@/lib/api";
 import ApplicationsTable from "@/components/admin/ApplicationsTable";
 import { toast } from "sonner";
 import type { RentalApplication } from "@/types/application";
@@ -13,7 +14,7 @@ export default function AdminDemandesPage() {
   const fetchApplications = async () => {
     try {
       const token = localStorage.getItem("admin_token");
-      const res = await fetch("/api/demandes-location", {
+      const res = await fetch(apiUrl("/api/demandes-location"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -30,7 +31,7 @@ export default function AdminDemandesPage() {
   const handleStatusChange = async (id: string, status: string) => {
     try {
       const token = localStorage.getItem("admin_token");
-      const res = await fetch(`/api/demandes-location/${id}`, {
+      const res = await fetch(apiUrl(`/api/demandes-location/${id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ status }),
@@ -48,7 +49,7 @@ export default function AdminDemandesPage() {
     if (!confirm("Supprimer cette demande ?")) return;
     try {
       const token = localStorage.getItem("admin_token");
-      const res = await fetch(`/api/demandes-location/${id}`, {
+      const res = await fetch(apiUrl(`/api/demandes-location/${id}`), {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

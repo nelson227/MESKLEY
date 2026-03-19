@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { contactSchema } from "@/lib/validations";
+import { apiUrl } from "@/lib/api";
 import { CONTACT_SUBJECTS } from "@/constants/filters";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -22,7 +23,7 @@ export default function ContactForm() {
   const onSubmit = async (data: FormData) => {
     setSubmitting(true);
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(apiUrl("/api/contact"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

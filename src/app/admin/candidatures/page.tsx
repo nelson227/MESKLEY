@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { apiUrl } from "@/lib/api";
 import { formatDate, getStatusLabel, getStatusColor } from "@/lib/utils";
 import { Eye, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
@@ -28,7 +29,7 @@ export default function AdminCandidaturesPage() {
     const fetch_ = async () => {
       try {
         const token = localStorage.getItem("admin_token");
-        const res = await fetch("/api/candidatures", {
+        const res = await fetch(apiUrl("/api/candidatures"), {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -45,7 +46,7 @@ export default function AdminCandidaturesPage() {
   const updateStatus = async (id: string, status: string) => {
     try {
       const token = localStorage.getItem("admin_token");
-      const res = await fetch(`/api/candidatures/${id}`, {
+      const res = await fetch(apiUrl(`/api/candidatures/${id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ status }),

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { apiUrl } from "@/lib/api";
 import { formatDate, formatPrice, getStatusLabel, getStatusColor } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
@@ -18,7 +19,7 @@ export default function DemandeDetailPage() {
     const fetch_ = async () => {
       try {
         const token = localStorage.getItem("admin_token");
-        const res = await fetch(`/api/demandes-location/${id}`, {
+        const res = await fetch(apiUrl(`/api/demandes-location/${id}`), {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -35,7 +36,7 @@ export default function DemandeDetailPage() {
   const updateStatus = async (status: string) => {
     try {
       const token = localStorage.getItem("admin_token");
-      const res = await fetch(`/api/demandes-location/${id}`, {
+      const res = await fetch(apiUrl(`/api/demandes-location/${id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ status }),

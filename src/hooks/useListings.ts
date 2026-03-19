@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import type { ListingFilters, ListingCardData } from "@/types/listing";
 import type { PaginatedResponse } from "@/types/common";
+import { apiUrl } from "@/lib/api";
 
 async function fetchListings(filters: ListingFilters): Promise<PaginatedResponse<ListingCardData>> {
   const params = new URLSearchParams();
@@ -19,7 +20,7 @@ async function fetchListings(filters: ListingFilters): Promise<PaginatedResponse
   if (filters.sort) params.set("sort", filters.sort);
   if (filters.page) params.set("page", String(filters.page));
 
-  const res = await fetch(`/api/logements?${params.toString()}`);
+  const res = await fetch(apiUrl(`/api/logements?${params.toString()}`));
   if (!res.ok) throw new Error("Erreur lors du chargement des logements");
   return res.json();
 }
@@ -32,7 +33,7 @@ export function useListings(filters: ListingFilters) {
 }
 
 async function fetchListing(id: string) {
-  const res = await fetch(`/api/logements/${id}`);
+  const res = await fetch(apiUrl(`/api/logements/${id}`));
   if (!res.ok) throw new Error("Logement introuvable");
   const data = await res.json();
   return data.data;

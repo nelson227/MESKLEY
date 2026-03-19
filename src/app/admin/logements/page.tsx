@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Plus, Trash2, Edit, Eye } from "lucide-react";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { apiUrl } from "@/lib/api";
 import { formatPrice, getStatusLabel, getStatusColor } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -25,7 +26,7 @@ export default function AdminListingsPage() {
   const fetchListings = async () => {
     try {
       const token = localStorage.getItem("admin_token");
-      const res = await fetch("/api/logements?limit=100", {
+      const res = await fetch(apiUrl("/api/logements?limit=100"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -43,7 +44,7 @@ export default function AdminListingsPage() {
     if (!confirm("Supprimer ce logement ?")) return;
     try {
       const token = localStorage.getItem("admin_token");
-      const res = await fetch(`/api/logements/${id}`, {
+      const res = await fetch(apiUrl(`/api/logements/${id}`), {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

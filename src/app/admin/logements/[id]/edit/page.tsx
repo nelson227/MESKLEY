@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { apiUrl } from "@/lib/api";
 import ListingForm from "@/components/admin/ListingForm";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
@@ -13,7 +14,7 @@ export default function EditLogementPage() {
   useEffect(() => {
     const fetchListing = async () => {
       try {
-        const res = await fetch(`/api/logements/${id}`);
+        const res = await fetch(apiUrl(`/api/logements/${id}`));
         const data = await res.json();
         if (data.success) setListing(data.data);
       } catch {

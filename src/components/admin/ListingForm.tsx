@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { listingSchema } from "@/lib/validations";
+import { apiUrl } from "@/lib/api";
 import { PROPERTY_TYPES, FEATURES_LIST } from "@/constants/filters";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -47,12 +48,13 @@ export default function ListingForm({ initialData }: ListingFormProps) {
   const onSubmit = async (data: FormData) => {
     setSubmitting(true);
     try {
-      const url = isEdit ? `/api/logements/${initialData?._id}` : "/api/logements";
+      const url = isEdit ? apiUrl(`/api/logements/${initialData?._id}`) : apiUrl("/api/logements");
       const method = isEdit ? "PUT" : "POST";
+      const token = localStorage.getItem("admin_token");
 
       const res = await fetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(data),
       });
       const result = await res.json();
@@ -63,7 +65,7 @@ export default function ListingForm({ initialData }: ListingFormProps) {
         const formData = new FormData();
         photos.forEach((p) => formData.append("photos", p));
         formData.append("listingId", result.data?._id || initialData?._id || "");
-        await fetch("/api/upload", { method: "POST", body: formData });
+        await fetch(apiUrl("/api/upload"), { method: "POST", headers: { Authorization: `Bearer ${token}` }, body: formData });
       }
 
       toast.success(isEdit ? "Logement mis à jour" : "Logement créé");

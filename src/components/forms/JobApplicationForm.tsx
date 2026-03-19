@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jobApplicationSchema } from "@/lib/validations";
+import { apiUrl } from "@/lib/api";
 import { EDUCATION_LEVELS, EXPERIENCE_OPTIONS, AVAILABILITY_OPTIONS, POSITION_OPTIONS } from "@/constants/filters";
 import FileUpload from "./FileUpload";
 import { toast } from "sonner";
@@ -33,7 +34,7 @@ export default function JobApplicationForm() {
       if (cv) formData.append("cv", cv);
       if (coverLetter) formData.append("coverLetter", coverLetter);
 
-      const res = await fetch("/api/candidatures", { method: "POST", body: formData });
+      const res = await fetch(apiUrl("/api/candidatures"), { method: "POST", body: formData });
       const result = await res.json();
 
       if (!res.ok) throw new Error(result.error || "Erreur lors de l'envoi");
