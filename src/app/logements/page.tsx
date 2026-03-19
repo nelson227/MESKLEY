@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ListingCard from "@/components/logements/ListingCard";
 import ListingFiltersBar from "@/components/logements/ListingFilters";
@@ -12,6 +12,14 @@ import { Home } from "lucide-react";
 import type { ListingFilters, ListingCardData } from "@/types/listing";
 
 export default function LogementsPage() {
+  return (
+    <Suspense fallback={<div className="flex justify-center py-32"><LoadingSpinner size="lg" /></div>}>
+      <LogementsContent />
+    </Suspense>
+  );
+}
+
+function LogementsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [listings, setListings] = useState<ListingCardData[]>([]);
