@@ -96,7 +96,25 @@ export default function FeaturedListings() {
               </div>
 
               {/* Infos */}
-              <div className="p-5">
+              <div className="relative p-5" style={{ overflow: "hidden" }}>
+                {/* Watermark MESKLEY */}
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    pointerEvents: "none",
+                    zIndex: 0,
+                  }}
+                >
+                  <div style={{ color: "#C8A95E", opacity: 0.12, fontSize: "42px", fontWeight: 800, fontFamily: "serif", letterSpacing: "4px", userSelect: "none", whiteSpace: "nowrap" }}>
+                    MESKLEY
+                  </div>
+                </div>
+                <div style={{ position: "relative", zIndex: 1 }}>
                 <h3 className="text-lg font-semibold text-black mb-3 group-hover:text-gold transition-colors line-clamp-1" style={{ fontFamily: "'Playfair Display', serif" }}>
                   {listing.title}
                 </h3>
@@ -118,6 +136,7 @@ export default function FeaturedListings() {
                   {listing.furnished && (
                     <span className="text-gold text-xs font-medium">Meublé</span>
                   )}
+                </div>
                 </div>
               </div>
             </Link>
