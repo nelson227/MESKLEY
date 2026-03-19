@@ -3,7 +3,7 @@ import { prisma } from "../lib/prisma.js";
 import { extractToken, verifyToken } from "../lib/auth.js";
 import { generateReference } from "../lib/utils.js";
 import { sendEmail, candidatureConfirmationEmail, adminNotificationEmail } from "../lib/email.js";
-import { broadcast } from "../server.js";
+import { broadcast } from "../lib/ws.js";
 
 const router = Router();
 
@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
       take: limit,
     });
 
-    const data = applications.map((a) => ({ ...a, _id: a.id }));
+    const data = applications.map((a: { id: string }) => ({ ...a, _id: a.id }));
     res.json({ success: true, data, pagination: { total, page, limit, pages: Math.ceil(total / limit) } });
   } catch {
     res.status(500).json({ success: false, error: "Erreur serveur" });

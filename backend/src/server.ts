@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { createServer } from "http";
-import { WebSocketServer, WebSocket } from "ws";
+import { initWebSocket } from "./lib/ws.js";
 
 import authRoutes from "./routes/auth.js";
 import listingRoutes from "./routes/listings.js";
@@ -16,18 +16,7 @@ const app = express();
 const server = createServer(app);
 
 // --- WebSocket ---
-const wss = new WebSocketServer({ server });
-
-wss.on("connection", (ws) => {
-  ws.on("error", () => {});
-});
-
-export function broadcast(event: { type: string; data?: unknown }) {
-  const msg = JSON.stringify(event);
-  wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) client.send(msg);
-  });
-}
+initWebSocket(server);
 
 // --- Middlewares ---
 app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:3000", credentials: true }));

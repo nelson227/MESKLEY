@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { prisma } from "../lib/prisma.js";
 import { sendEmail, adminNotificationEmail } from "../lib/email.js";
-import { broadcast } from "../server.js";
+import { broadcast } from "../lib/ws.js";
 
 const router = Router();
 

@@ -2,8 +2,7 @@ import { Router } from "express";
 import { prisma } from "../lib/prisma.js";
 import { extractToken, verifyToken } from "../lib/auth.js";
 import { generateReference } from "../lib/utils.js";
-import { broadcast } from "../server.js";
-import type { Prisma } from "@prisma/client";
+import { broadcast } from "../lib/ws.js";
 
 const router = Router();
 
@@ -14,9 +13,10 @@ router.get("/", async (req, res) => {
     const limit = parseInt(req.query.limit as string) || 12;
     const { type, search, city, minPrice, maxPrice, minSurface, rooms, furnished, sort } = req.query;
 
-    const where: Prisma.ListingWhereInput = { status: { in: ["disponible", "reserve"] } };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const where: Record<string, any> = { status: { in: ["disponible", "reserve"] } };
 
-    if (type) where.type = type as Prisma.ListingWhereInput["type"];
+    if (type) where.type = type as string;
     if (city) where.city = { contains: city as string, mode: "insensitive" };
     if (search) {
       where.OR = [
@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
       ];
     }
     if (minPrice || maxPrice) {
-      where.price = {};
+      where.price = {} as Record<string, number>;
       if (minPrice) where.price.gte = Number(minPrice);
       if (maxPrice) where.price.lte = Number(maxPrice);
     }
@@ -35,7 +35,7 @@ router.get("/", async (req, res) => {
     if (rooms) where.rooms = rooms === "5" ? { gte: 5 } : Number(rooms);
     if (furnished === "true") where.furnished = true;
 
-    const sortMap: Record<string, Prisma.ListingOrderByWithRelationInput> = {
+    const sortMap: Record<string, Record<string, string>> = {
       date_desc: { createdAt: "desc" },
       price_asc: { price: "asc" },
       price_desc: { price: "desc" },
@@ -55,7 +55,7 @@ router.get("/", async (req, res) => {
       },
     });
 
-    const data = listings.map((l) => ({
+    const data = listings.map((l: { id: string; photos?: string[] }) => ({
       ...l,
       _id: l.id,
       mainPhoto: l.photos?.[0] || null,
