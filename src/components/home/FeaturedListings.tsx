@@ -104,14 +104,12 @@ export default function FeaturedListings() {
                   alt=""
                   style={{
                     position: "absolute",
-                    left: "50%",
-                    top: "50%",
-                    transform: "translate(-50%, -50%)",
-                    width: "150px",
-                    height: "auto",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
                     opacity: 0.5,
                     pointerEvents: "none",
-                    objectFit: "contain",
+                    objectFit: "cover",
                   }}
                 />
                 <div style={{ position: "relative", zIndex: 1 }}>
