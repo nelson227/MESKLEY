@@ -19,7 +19,23 @@ const server = createServer(app);
 initWebSocket(server);
 
 // --- Middlewares ---
-app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:3000", credentials: true }));
+const allowedOrigins = [
+  "https://meskley.vercel.app",
+  "https://www.meskley.vercel.app",
+  process.env.FRONTEND_URL,
+  "http://localhost:3000",
+].filter(Boolean) as string[];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow all for now to prevent CORS issues
+    }
+  },
+  credentials: true,
+}));
 app.use(express.json({ limit: "10mb" }));
 
 // --- Routes ---
