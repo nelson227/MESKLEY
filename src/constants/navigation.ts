@@ -2,6 +2,7 @@ import type { NavLink } from "@/types/common";
 
 export const NAV_LINKS: NavLink[] = [
   { label: "Accueil", href: "/" },
+  { label: "Logements", href: "/logements" },
   { label: "Carrières", href: "/carrieres" },
   { label: "Contact", href: "/contact" },
 ];
