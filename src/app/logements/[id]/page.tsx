@@ -3,13 +3,15 @@ import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import PhotoGallery from "@/components/logements/PhotoGallery";
 import PropertyDetails from "@/components/logements/PropertyDetails";
 import PropertyFeatures from "@/components/logements/PropertyFeatures";
+import LocationMap from "@/components/logements/LocationMap";
 import ActionButtons from "@/components/logements/ActionButtons";
 import type { Metadata } from "next";
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
 async function getListing(id: string) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/logements/${id}`, {
+    const res = await fetch(`${API_BASE}/api/logements/${id}`, {
       cache: "no-store",
     });
     if (!res.ok) return null;
@@ -48,7 +50,7 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
         <div className="grid lg:grid-cols-3 gap-8 mt-6">
           {/* Colonne principale */}
           <div className="lg:col-span-2">
-            <PhotoGallery photos={listing.photos || []} title={listing.title} />
+            <PhotoGallery photos={listing.photos || []} videos={listing.videos || []} title={listing.title} />
             <div className="mt-6">
               <h1 className="text-2xl sm:text-3xl font-bold text-black mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>
                 {listing.title}
@@ -58,6 +60,21 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
               <PropertyDetails listing={listing} />
               <PropertyFeatures features={listing.features || []} />
             </div>
+
+            {/* Localisation */}
+            {listing.latitude && listing.longitude && (
+              <div className="mt-6">
+                <h3 className="font-semibold text-black mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Localisation
+                </h3>
+                <LocationMap
+                  latitude={listing.latitude}
+                  longitude={listing.longitude}
+                  title={listing.title}
+                  address={`${listing.address}, ${listing.neighborhood}, ${listing.city}`}
+                />
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}

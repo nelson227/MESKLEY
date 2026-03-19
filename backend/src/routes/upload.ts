@@ -10,6 +10,7 @@ cloudinary.config({
 
 const router = Router();
 
+// POST /api/upload - Upload base64 image to Cloudinary
 router.post("/", async (req, res) => {
   try {
     const token = extractToken(req);
@@ -24,6 +25,37 @@ router.post("/", async (req, res) => {
     res.json({ success: true, data: { url: result.secure_url, publicId: result.public_id } });
   } catch {
     res.status(500).json({ success: false, error: "Erreur upload" });
+  }
+});
+
+// POST /api/upload/signature - Get signed params for direct Cloudinary upload from browser
+router.post("/signature", async (req, res) => {
+  try {
+    const token = extractToken(req);
+    if (!token) return res.status(401).json({ success: false, error: "Non autorisé" });
+    const payload = await verifyToken(token);
+    if (!payload) return res.status(401).json({ success: false, error: "Token invalide" });
+
+    const timestamp = Math.round(Date.now() / 1000);
+    const folder = "meskley-location";
+
+    const signature = cloudinary.utils.api_sign_request(
+      { timestamp, folder },
+      process.env.CLOUDINARY_API_SECRET!
+    );
+
+    res.json({
+      success: true,
+      data: {
+        signature,
+        timestamp,
+        cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+        apiKey: process.env.CLOUDINARY_API_KEY,
+        folder,
+      },
+    });
+  } catch {
+    res.status(500).json({ success: false, error: "Erreur signature" });
   }
 });
 

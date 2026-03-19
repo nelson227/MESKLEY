@@ -8,6 +8,7 @@ import { apiUrl } from "@/lib/api";
 import { PROPERTY_TYPES, FEATURES_LIST } from "@/constants/filters";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Upload, X, Loader2, ImageIcon, Video } from "lucide-react";
 import type { z } from "zod";
 
 type FormData = z.infer<typeof listingSchema>;
@@ -16,10 +17,45 @@ interface ListingFormProps {
   initialData?: Partial<FormData> & { _id?: string };
 }
 
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB
+
+async function getUploadSignature() {
+  const token = localStorage.getItem("admin_token");
+  const res = await fetch(apiUrl("/api/upload/signature"), {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error("Impossible d'obtenir les paramètres d'upload");
+  const data = await res.json();
+  return data.data;
+}
+
+async function uploadToCloudinary(file: File, resourceType: "image" | "video") {
+  const sig = await getUploadSignature();
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("api_key", sig.apiKey);
+  formData.append("timestamp", String(sig.timestamp));
+  formData.append("signature", sig.signature);
+  formData.append("folder", sig.folder);
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${sig.cloudName}/${resourceType}/upload`,
+    { method: "POST", body: formData }
+  );
+  if (!res.ok) throw new Error("Erreur d'upload");
+  const result = await res.json();
+  return result.secure_url as string;
+}
+
 export default function ListingForm({ initialData }: ListingFormProps) {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
-  const [photos, setPhotos] = useState<File[]>([]);
+  const [uploadedPhotos, setUploadedPhotos] = useState<string[]>(initialData?.photos || []);
+  const [uploadedVideos, setUploadedVideos] = useState<string[]>(initialData?.videos || []);
+  const [uploadingPhotos, setUploadingPhotos] = useState(false);
+  const [uploadingVideos, setUploadingVideos] = useState(false);
   const isEdit = !!initialData?._id;
 
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormData>({
@@ -32,8 +68,10 @@ export default function ListingForm({ initialData }: ListingFormProps) {
       chargesIncluded: false,
       charges: 0,
       features: [],
-      latitude: 3.848,
-      longitude: 11.5021,
+      photos: [],
+      videos: [],
+      latitude: 45.5017,
+      longitude: -73.5673,
       ...initialData,
     },
   });
@@ -45,6 +83,76 @@ export default function ListingForm({ initialData }: ListingFormProps) {
     setValue("features", current.includes(feat) ? current.filter((f) => f !== feat) : [...current, feat]);
   };
 
+  const handlePhotoUpload = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    const toUpload = Array.from(files);
+
+    for (const file of toUpload) {
+      if (file.size > MAX_IMAGE_SIZE) {
+        toast.error(`"${file.name}" dépasse la limite de 10 Mo`);
+        return;
+      }
+    }
+
+    setUploadingPhotos(true);
+    try {
+      const urls: string[] = [];
+      for (const file of toUpload) {
+        const url = await uploadToCloudinary(file, "image");
+        urls.push(url);
+      }
+      const newPhotos = [...uploadedPhotos, ...urls];
+      setUploadedPhotos(newPhotos);
+      setValue("photos", newPhotos);
+      toast.success(`${urls.length} photo(s) ajoutée(s)`);
+    } catch {
+      toast.error("Erreur lors de l'upload des photos");
+    } finally {
+      setUploadingPhotos(false);
+    }
+  };
+
+  const handleVideoUpload = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    const toUpload = Array.from(files);
+
+    for (const file of toUpload) {
+      if (file.size > MAX_VIDEO_SIZE) {
+        toast.error(`"${file.name}" dépasse la limite de 100 Mo`);
+        return;
+      }
+    }
+
+    setUploadingVideos(true);
+    try {
+      const urls: string[] = [];
+      for (const file of toUpload) {
+        const url = await uploadToCloudinary(file, "video");
+        urls.push(url);
+      }
+      const newVideos = [...uploadedVideos, ...urls];
+      setUploadedVideos(newVideos);
+      setValue("videos", newVideos);
+      toast.success(`${urls.length} vidéo(s) ajoutée(s)`);
+    } catch {
+      toast.error("Erreur lors de l'upload des vidéos");
+    } finally {
+      setUploadingVideos(false);
+    }
+  };
+
+  const removePhoto = (index: number) => {
+    const newPhotos = uploadedPhotos.filter((_, i) => i !== index);
+    setUploadedPhotos(newPhotos);
+    setValue("photos", newPhotos);
+  };
+
+  const removeVideo = (index: number) => {
+    const newVideos = uploadedVideos.filter((_, i) => i !== index);
+    setUploadedVideos(newVideos);
+    setValue("videos", newVideos);
+  };
+
   const onSubmit = async (data: FormData) => {
     setSubmitting(true);
     try {
@@ -52,21 +160,15 @@ export default function ListingForm({ initialData }: ListingFormProps) {
       const method = isEdit ? "PUT" : "POST";
       const token = localStorage.getItem("admin_token");
 
+      const payload = { ...data, photos: uploadedPhotos, videos: uploadedVideos };
+
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || "Erreur");
-
-      // Upload photos si présentes
-      if (photos.length > 0) {
-        const formData = new FormData();
-        photos.forEach((p) => formData.append("photos", p));
-        formData.append("listingId", result.data?._id || initialData?._id || "");
-        await fetch(apiUrl("/api/upload"), { method: "POST", headers: { Authorization: `Bearer ${token}` }, body: formData });
-      }
 
       toast.success(isEdit ? "Logement mis à jour" : "Logement créé");
       router.push("/admin/logements");
@@ -89,7 +191,7 @@ export default function ListingForm({ initialData }: ListingFormProps) {
         <div className="grid sm:grid-cols-2 gap-4">
           <div className="sm:col-span-2">
             <label className={labelClass}>Titre *</label>
-            <input {...register("title")} className={inputClass} placeholder="Appartement 3 pièces à Bastos" />
+            <input {...register("title")} className={inputClass} placeholder="Appartement 3 pièces — Plateau Mont-Royal" />
             {errors.title && <p className="text-xs text-red-500 mt-1">{errors.title.message}</p>}
           </div>
           <div>
@@ -110,7 +212,7 @@ export default function ListingForm({ initialData }: ListingFormProps) {
           </div>
           <div className="sm:col-span-2">
             <label className={labelClass}>Description *</label>
-            <textarea {...register("description")} className={inputClass} rows={5} />
+            <textarea {...register("description")} className={inputClass} rows={5} placeholder="Décrivez le logement en détail : état, luminosité, vue, aménagements..." />
             {errors.description && <p className="text-xs text-red-500 mt-1">{errors.description.message}</p>}
           </div>
         </div>
@@ -232,19 +334,97 @@ export default function ListingForm({ initialData }: ListingFormProps) {
 
       {/* Photos */}
       <section className="bg-white rounded-xl border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold mb-4">Photos</h3>
-        <input
-          type="file"
-          multiple
-          accept="image/*"
-          onChange={(e) => setPhotos(Array.from(e.target.files || []))}
-          className="text-sm"
-        />
-        {photos.length > 0 && (
-          <div className="flex gap-2 mt-3 flex-wrap">
-            {photos.map((p, i) => (
-              <div key={i} className="w-20 h-16 rounded-lg overflow-hidden bg-gray-100">
-                <img src={URL.createObjectURL(p)} alt={`Preview ${i + 1}`} className="w-full h-full object-cover" />
+        <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
+          <ImageIcon className="w-5 h-5 text-gold" />
+          Photos
+        </h3>
+        <p className="text-xs text-gray-500 mb-4">10 Mo max par photo — Formats : JPG, PNG, WebP</p>
+
+        <label className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${uploadingPhotos ? "border-gold bg-gold/5" : "border-gray-300 hover:border-gold hover:bg-gray-50"}`}>
+          {uploadingPhotos ? (
+            <div className="flex items-center gap-2 text-gold">
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span className="text-sm font-medium">Upload en cours...</span>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-1">
+              <Upload className="w-6 h-6 text-gray-400" />
+              <span className="text-sm text-gray-500">Cliquer pour ajouter des photos</span>
+            </div>
+          )}
+          <input
+            type="file"
+            multiple
+            accept="image/jpeg,image/png,image/webp"
+            className="hidden"
+            disabled={uploadingPhotos}
+            onChange={(e) => handlePhotoUpload(e.target.files)}
+          />
+        </label>
+
+        {uploadedPhotos.length > 0 && (
+          <div className="flex gap-3 mt-4 flex-wrap">
+            {uploadedPhotos.map((url, i) => (
+              <div key={i} className="relative w-24 h-20 rounded-lg overflow-hidden bg-gray-100 group">
+                <img src={url} alt={`Photo ${i + 1}`} className="w-full h-full object-cover" />
+                <button
+                  type="button"
+                  onClick={() => removePhoto(i)}
+                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* Vidéos */}
+      <section className="bg-white rounded-xl border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
+          <Video className="w-5 h-5 text-gold" />
+          Vidéos
+        </h3>
+        <p className="text-xs text-gray-500 mb-4">100 Mo max par vidéo — Formats : MP4, MOV, WebM</p>
+
+        <label className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${uploadingVideos ? "border-gold bg-gold/5" : "border-gray-300 hover:border-gold hover:bg-gray-50"}`}>
+          {uploadingVideos ? (
+            <div className="flex items-center gap-2 text-gold">
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span className="text-sm font-medium">Upload vidéo en cours...</span>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-1">
+              <Upload className="w-6 h-6 text-gray-400" />
+              <span className="text-sm text-gray-500">Cliquer pour ajouter des vidéos</span>
+            </div>
+          )}
+          <input
+            type="file"
+            multiple
+            accept="video/mp4,video/quicktime,video/webm"
+            className="hidden"
+            disabled={uploadingVideos}
+            onChange={(e) => handleVideoUpload(e.target.files)}
+          />
+        </label>
+
+        {uploadedVideos.length > 0 && (
+          <div className="flex gap-3 mt-4 flex-wrap">
+            {uploadedVideos.map((url, i) => (
+              <div key={i} className="relative w-40 h-24 rounded-lg overflow-hidden bg-gray-900 group">
+                <video src={url} className="w-full h-full object-cover" muted />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Video className="w-6 h-6 text-white/70" />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeVideo(i)}
+                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <X className="w-3 h-3" />
+                </button>
               </div>
             ))}
           </div>
@@ -255,7 +435,7 @@ export default function ListingForm({ initialData }: ListingFormProps) {
         <button type="button" onClick={() => router.back()} className="px-6 py-3 border border-gray-200 rounded-lg text-sm font-medium hover:border-gray-400 transition-colors">
           Annuler
         </button>
-        <button type="submit" disabled={submitting} className="px-8 py-3 bg-gold text-black rounded-lg text-sm font-bold hover:bg-gold-dark transition-colors disabled:opacity-50">
+        <button type="submit" disabled={submitting || uploadingPhotos || uploadingVideos} className="px-8 py-3 bg-gold text-black rounded-lg text-sm font-bold hover:bg-gold-dark transition-colors disabled:opacity-50">
           {submitting ? "Enregistrement..." : isEdit ? "Mettre à jour" : "Créer le logement"}
         </button>
       </div>

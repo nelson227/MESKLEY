@@ -20,6 +20,8 @@ export const listingSchema = z.object({
   neighborhood: z.string().min(2, "Le quartier est requis").max(100),
   latitude: z.number().min(-90).max(90),
   longitude: z.number().min(-180).max(180),
+  photos: z.array(z.string()).optional().default([]),
+  videos: z.array(z.string()).optional().default([]),
   features: z.array(z.string()).optional().default([]),
   facebookMarketplaceUrl: z.string().url().nullable().optional(),
   messengerLink: z.string().optional().default(""),

@@ -1,83 +1,61 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { MapPin, BedDouble, Maximize, ArrowRight } from "lucide-react";
-import { formatPrice } from "@/lib/utils";
-
-const FEATURED_LISTINGS = [
-  {
-    id: "1",
-    title: "Bel appartement 3½ — Plateau Mont-Royal",
-    type: "Appartement",
-    price: 1850,
-    surface: 85,
-    bedrooms: 2,
-    city: "Montréal",
-    neighborhood: "Plateau Mont-Royal",
-    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80",
-    isNew: true,
-  },
-  {
-    id: "2",
-    title: "Condo moderne avec vue sur le fleuve",
-    type: "Condo",
-    price: 3200,
-    surface: 120,
-    bedrooms: 3,
-    city: "Montréal",
-    neighborhood: "Griffintown",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80",
-    isNew: false,
-  },
-  {
-    id: "3",
-    title: "Studio meublé centre-ville",
-    type: "Studio",
-    price: 1200,
-    surface: 35,
-    bedrooms: 1,
-    city: "Montréal",
-    neighborhood: "Ville-Marie",
-    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80",
-    isNew: true,
-  },
-  {
-    id: "4",
-    title: "Duplex spacieux — Rosemont",
-    type: "Duplex",
-    price: 2500,
-    surface: 150,
-    bedrooms: 3,
-    city: "Montréal",
-    neighborhood: "Rosemont",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80",
-    isNew: false,
-  },
-  {
-    id: "5",
-    title: "Maison familiale avec jardin",
-    type: "Maison",
-    price: 3500,
-    surface: 180,
-    bedrooms: 4,
-    city: "Montréal",
-    neighborhood: "Outremont",
-    image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80",
-    isNew: true,
-  },
-  {
-    id: "6",
-    title: "Appartement de standing",
-    type: "Appartement",
-    price: 2200,
-    surface: 100,
-    bedrooms: 2,
-    city: "Montréal",
-    neighborhood: "Vieux-Montréal",
-    image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80",
-    isNew: false,
-  },
-];
+import { formatPrice, isNewListing, getPropertyTypeLabel } from "@/lib/utils";
+import { apiUrl } from "@/lib/api";
+import type { ListingCardData } from "@/types/listing";
 
 export default function FeaturedListings() {
+  const [listings, setListings] = useState<ListingCardData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const res = await fetch(apiUrl("/api/logements?limit=6&sort=date_desc"));
+        const data = await res.json();
+        if (data.success) setListings(data.data || []);
+      } catch {
+        // Silencieux
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFeatured();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <p className="text-gold text-sm uppercase tracking-[3px] mb-3">Notre sélection</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-black" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Logements en vedette
+            </h2>
+            <div className="w-20 h-1 bg-gold mx-auto mt-4" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="bg-white rounded-xl overflow-hidden shadow-md border border-gray-light animate-pulse">
+                <div className="h-56 bg-gray-200" />
+                <div className="p-5 space-y-3">
+                  <div className="h-5 bg-gray-200 rounded w-3/4" />
+                  <div className="h-4 bg-gray-200 rounded w-1/2" />
+                  <div className="h-4 bg-gray-200 rounded w-2/3" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (listings.length === 0) return null;
+
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -92,28 +70,33 @@ export default function FeaturedListings() {
 
         {/* Grille */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {FEATURED_LISTINGS.map((listing) => (
+          {listings.map((listing) => (
             <Link
-              key={listing.id}
-              href={`/logements/${listing.id}`}
+              key={listing._id}
+              href={`/logements/${listing._id}`}
               className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-light"
             >
               {/* Image */}
               <div className="relative h-56 overflow-hidden">
                 <img
-                  src={listing.image}
+                  src={listing.mainPhoto || "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80"}
                   alt={listing.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                {listing.isNew && (
+                {isNewListing(listing.createdAt) && (
                   <span className="absolute top-3 left-3 bg-gold text-black text-xs font-bold px-3 py-1 rounded-full">
                     Nouveau
                   </span>
                 )}
                 <span className="absolute top-3 right-3 bg-white/90 text-black text-xs font-medium px-3 py-1 rounded-full">
-                  {listing.type}
+                  {getPropertyTypeLabel(listing.type)}
                 </span>
+                {listing.status === "reserve" && (
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                    <span className="bg-yellow-500 text-black text-sm font-bold px-4 py-2 rounded-full">Réservé</span>
+                  </div>
+                )}
                 <div className="absolute bottom-3 left-3">
                   <p className="text-white text-xl font-bold">{formatPrice(listing.price)}<span className="text-sm font-normal">/mois</span></p>
                 </div>
@@ -121,7 +104,7 @@ export default function FeaturedListings() {
 
               {/* Infos */}
               <div className="p-5">
-                <h3 className="text-lg font-semibold text-black mb-3 group-hover:text-gold transition-colors" style={{ fontFamily: "'Playfair Display', serif" }}>
+                <h3 className="text-lg font-semibold text-black mb-3 group-hover:text-gold transition-colors line-clamp-1" style={{ fontFamily: "'Playfair Display', serif" }}>
                   {listing.title}
                 </h3>
                 <div className="flex items-center gap-4 text-sm text-gray">
@@ -139,6 +122,9 @@ export default function FeaturedListings() {
                     <Maximize className="w-4 h-4" />
                     {listing.surface} m²
                   </span>
+                  {listing.furnished && (
+                    <span className="text-gold text-xs font-medium">Meublé</span>
+                  )}
                 </div>
               </div>
             </Link>

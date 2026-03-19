@@ -25,6 +25,7 @@ export interface Listing {
   latitude: number;
   longitude: number;
   photos: string[];
+  videos: string[];
   mainPhotoIndex: number;
   features: string[];
   facebookMarketplaceUrl: string | null;

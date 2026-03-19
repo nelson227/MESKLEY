@@ -116,6 +116,7 @@ model Listing {
   latitude               Float
   longitude              Float
   photos                 String[]
+  videos                 String[]
   mainPhotoIndex         Int           @default(0)
   features               String[]
   facebookMarketplaceUrl String?

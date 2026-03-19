@@ -93,6 +93,7 @@ router.post("/", async (req, res) => {
         ...body,
         reference: generateReference(),
         photos: body.photos || [],
+        videos: body.videos || [],
         features: body.features || [],
         availableDate: new Date(body.availableDate),
       },
