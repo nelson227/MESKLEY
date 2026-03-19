@@ -62,7 +62,7 @@ export default function FeaturedListings() {
           width: "100%",
           height: "100%",
           objectFit: "cover",
-          opacity: 0.15,
+          opacity: 0.25,
           pointerEvents: "none",
           zIndex: 0,
         }}
