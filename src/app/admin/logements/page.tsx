@@ -61,14 +61,47 @@ export default function AdminListingsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Logements</h1>
-        <Link href="/admin/logements/nouveau" className="flex items-center gap-2 px-4 py-2 bg-gold text-black rounded-lg font-semibold text-sm hover:bg-gold-dark transition-colors">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Logements</h1>
+        <Link href="/admin/logements/nouveau" className="flex items-center justify-center gap-2 px-4 py-2 bg-gold text-black rounded-lg font-semibold text-sm hover:bg-gold-dark transition-colors">
           <Plus className="w-4 h-4" /> Nouveau logement
         </Link>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      {/* Vue mobile : cartes */}
+      <div className="sm:hidden space-y-3">
+        {listings.map((listing) => (
+          <div key={listing._id} className="bg-white rounded-xl border border-gray-200 p-4">
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <div className="min-w-0">
+                <p className="font-medium text-gray-900 truncate">{listing.title}</p>
+                <p className="text-xs text-gold">{listing.reference}</p>
+              </div>
+              <span className={`flex-shrink-0 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(listing.status)}`}>
+                {getStatusLabel(listing.status)}
+              </span>
+            </div>
+            <p className="text-sm text-gray-500 mb-2">{listing.neighborhood}, {listing.city}</p>
+            <div className="flex items-center justify-between">
+              <p className="font-semibold text-sm">{formatPrice(listing.price)}/mois</p>
+              <div className="flex items-center gap-1">
+                <Link href={`/logements/${listing._id}`} className="p-1.5 hover:bg-gray-100 rounded" title="Voir">
+                  <Eye className="w-4 h-4 text-gray-400" />
+                </Link>
+                <Link href={`/admin/logements/${listing._id}/edit`} className="p-1.5 hover:bg-gray-100 rounded" title="Modifier">
+                  <Edit className="w-4 h-4 text-blue-500" />
+                </Link>
+                <button onClick={() => handleDelete(listing._id)} className="p-1.5 hover:bg-gray-100 rounded" title="Supprimer">
+                  <Trash2 className="w-4 h-4 text-red-500" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Vue desktop : tableau */}
+      <div className="hidden sm:block bg-white rounded-xl border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-200">

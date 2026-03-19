@@ -64,8 +64,40 @@ export default function AdminCandidaturesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Candidatures</h1>
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Candidatures</h1>
+
+      {/* Vue mobile : cartes */}
+      <div className="sm:hidden space-y-3">
+        {candidatures.map((c) => (
+          <div key={c._id} className="bg-white rounded-xl border border-gray-200 p-4">
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <div className="min-w-0">
+                <p className="font-medium text-gray-900 truncate">{c.fullName}</p>
+                <p className="text-xs text-gold">{c.referenceId}</p>
+              </div>
+              <span className={`flex-shrink-0 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(c.status)}`}>
+                {getStatusLabel(c.status)}
+              </span>
+            </div>
+            <p className="text-sm text-gray-500 mb-1">{c.desiredPosition}</p>
+            <p className="text-xs text-gray-400 mb-3">{c.availability} — {formatDate(c.createdAt)}</p>
+            <div className="flex items-center gap-2">
+              <button onClick={() => updateStatus(c._id, "en_cours")} className="text-xs px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100">
+                En cours
+              </button>
+              <button onClick={() => updateStatus(c._id, "retenu")} className="text-xs px-3 py-1.5 bg-green-50 text-green-600 rounded-lg hover:bg-green-100">
+                Retenu
+              </button>
+            </div>
+          </div>
+        ))}
+        {candidatures.length === 0 && (
+          <div className="text-center py-12 text-gray-400">Aucune candidature reçue</div>
+        )}
+      </div>
+
+      {/* Vue desktop : tableau */}
+      <div className="hidden sm:block bg-white rounded-xl border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-200">

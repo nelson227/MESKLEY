@@ -66,12 +66,12 @@ export default function DemandeDetailPage() {
         <ArrowLeft className="w-4 h-4" /> Retour
       </button>
 
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dossier {app.dossierId}</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Dossier {app.dossierId}</h1>
           <p className="text-sm text-gray-400">Soumis le {formatDate(app.createdAt)}</p>
         </div>
-        <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(app.status)}`}>
+        <span className={`self-start px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(app.status)}`}>
           {getStatusLabel(app.status)}
         </span>
       </div>
@@ -126,7 +126,7 @@ export default function DemandeDetailPage() {
         </div>
       )}
 
-      <div className="mt-6 flex gap-3">
+      <div className="mt-6 flex flex-wrap gap-3">
         <button onClick={() => updateStatus("en_cours")} className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-200">
           En cours
         </button>

@@ -59,11 +59,11 @@ export default function AdminDashboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Tableau de bord</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Tableau de bord</h1>
       <StatsCards stats={stats} />
 
       {/* Dernières demandes */}
-      <div className="mt-8 bg-white rounded-xl border border-gray-200 p-6">
+      <div className="mt-8 bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-gray-900">Dernières demandes de location</h2>
           <Link href="/admin/demandes" className="text-sm text-gold hover:underline">Voir tout →</Link>

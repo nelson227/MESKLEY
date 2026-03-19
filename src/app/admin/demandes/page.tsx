@@ -66,7 +66,7 @@ export default function AdminDemandesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Demandes de location</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Demandes de location</h1>
       <ApplicationsTable applications={applications} onStatusChange={handleStatusChange} onDelete={handleDelete} />
     </div>
   );

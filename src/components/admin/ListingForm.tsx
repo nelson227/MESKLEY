@@ -431,7 +431,7 @@ export default function ListingForm({ initialData }: ListingFormProps) {
         )}
       </section>
 
-      <div className="flex gap-3 justify-end">
+      <div className="flex flex-col-reverse sm:flex-row gap-3 sm:justify-end">
         <button type="button" onClick={() => router.back()} className="px-6 py-3 border border-gray-200 rounded-lg text-sm font-medium hover:border-gray-400 transition-colors">
           Annuler
         </button>
