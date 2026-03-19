@@ -58,7 +58,7 @@ export default function AdminLoginPage() {
               type="email"
               {...register("email")}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
-              placeholder="admin@meskley-location.com"
+              placeholder="votre@email.com"
             />
             {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
           </div>

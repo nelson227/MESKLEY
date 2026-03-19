@@ -2,23 +2,28 @@ import { prisma } from "./lib/prisma.js";
 import { hashPassword } from "./lib/auth.js";
 
 async function seed() {
-  const existing = await prisma.adminUser.findUnique({ where: { email: "admin@meskley-location.com" } });
-  if (existing) {
-    console.log("Admin déjà existant, seed ignoré.");
-    return;
-  }
+  const email = process.env.ADMIN_EMAIL || "adminmeskley@gmail.com";
+  const password = process.env.ADMIN_PASSWORD || "Admin2026!";
 
-  const passwordHash = await hashPassword("Admin123!");
-  await prisma.adminUser.create({
-    data: {
-      email: "admin@meskley-location.com",
+  const passwordHash = await hashPassword(password);
+  await prisma.adminUser.upsert({
+    where: { email },
+    update: { passwordHash, name: "Admin MESKLEY", role: "super_admin" },
+    create: {
+      email,
       passwordHash,
       name: "Admin MESKLEY",
       role: "super_admin",
     },
   });
 
-  console.log("✓ Admin créé : admin@meskley-location.com / Admin123!");
+  // Supprimer l'ancien admin si différent
+  const oldAdmin = await prisma.adminUser.findUnique({ where: { email: "admin@meskley-location.com" } });
+  if (oldAdmin) {
+    await prisma.adminUser.delete({ where: { email: "admin@meskley-location.com" } });
+  }
+
+  console.log("✓ Admin seed terminé");
 }
 
 seed()

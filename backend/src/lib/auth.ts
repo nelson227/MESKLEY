@@ -2,7 +2,7 @@ import { SignJWT, jwtVerify } from "jose";
 import bcrypt from "bcryptjs";
 import type { Request } from "express";
 
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "fallback-secret");
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "meskley-secret-key-2024");
 
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 12);
