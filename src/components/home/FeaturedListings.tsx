@@ -96,24 +96,24 @@ export default function FeaturedListings() {
               </div>
 
               {/* Infos */}
-              <div className="relative p-5" style={{ overflow: "hidden", background: "linear-gradient(135deg, #FDF6E3 0%, #FFF9EE 50%, #FDF6E3 100%)" }}>
-                {/* Watermark MESKLEY */}
-                <div
+              <div className="relative p-5" style={{ overflow: "hidden" }}>
+                {/* Logo en fond */}
+                <img
                   aria-hidden="true"
+                  src="/fond-de-page.png"
+                  alt=""
                   style={{
                     position: "absolute",
-                    inset: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    left: "50%",
+                    top: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "150px",
+                    height: "auto",
+                    opacity: 0.5,
                     pointerEvents: "none",
-                    zIndex: 0,
+                    objectFit: "contain",
                   }}
-                >
-                  <div style={{ color: "#C8A95E", opacity: 0.18, fontSize: "42px", fontWeight: 800, fontFamily: "serif", letterSpacing: "4px", userSelect: "none", whiteSpace: "nowrap" }}>
-                    MESKLEY
-                  </div>
-                </div>
+                />
                 <div style={{ position: "relative", zIndex: 1 }}>
                 <h3 className="text-lg font-semibold text-black mb-3 group-hover:text-gold transition-colors line-clamp-1" style={{ fontFamily: "'Playfair Display', serif" }}>
                   {listing.title}
