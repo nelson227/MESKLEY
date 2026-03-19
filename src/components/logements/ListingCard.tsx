@@ -49,22 +49,20 @@ export default function ListingCard({ listing }: ListingCardProps) {
         </div>
       </div>
 
-      {/* Infos avec logo en fond */}
-      <div className="relative p-5" style={{ backgroundColor: "#ffffff" }}>
-        {/* Logo watermark */}
+      {/* Infos avec image de fond */}
+      <div className="relative p-5" style={{ overflow: "hidden" }}>
+        {/* Image de fond */}
         <img
-          src="/logo.png"
+          src="/fond%20de%20page.png"
           alt=""
           aria-hidden="true"
           style={{
             position: "absolute",
-            right: "12px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            width: "90px",
-            height: "90px",
-            objectFit: "contain",
-            opacity: 0.12,
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            opacity: 0.15,
             pointerEvents: "none",
           }}
         />
