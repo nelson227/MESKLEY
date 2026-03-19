@@ -6,8 +6,8 @@ export const SOCIAL_LINKS = {
 };
 
 export const CONTACT_INFO = {
-  phone: "+237 6XX XXX XXX",
+  phone: "+1 438 387 1029",
   email: "contact@meskley-location.com",
-  address: "Yaoundé, Cameroun",
-  hours: "Lun - Ven : 8h00 - 18h00 | Sam : 9h00 - 14h00",
+  address: "Montréal, QC, Canada",
+  hours: "Lun - Ven : 9h00 - 17h00 | Sam : 10h00 - 14h00",
 };

@@ -115,7 +115,7 @@ export default function RentalApplicationForm() {
                 </div>
                 <div>
                   <label className={labelClass}>Téléphone *</label>
-                  <input type="tel" {...register("phone")} className={inputClass} placeholder="+237 6XX XXX XXX" />
+                  <input type="tel" {...register("phone")} className={inputClass} placeholder="+1 438 000 0000" />
                   {errors.phone && <p className={errorClass}>{errors.phone.message}</p>}
                 </div>
                 <div>
@@ -130,7 +130,7 @@ export default function RentalApplicationForm() {
                 </div>
                 <div>
                   <label className={labelClass}>Nationalité *</label>
-                  <input {...register("nationality")} className={inputClass} placeholder="Camerounaise" />
+                  <input {...register("nationality")} className={inputClass} placeholder="Canadienne" />
                   {errors.nationality && <p className={errorClass}>{errors.nationality.message}</p>}
                 </div>
                 <div>
@@ -172,7 +172,7 @@ export default function RentalApplicationForm() {
                   <input {...register("jobTitle")} className={inputClass} />
                 </div>
                 <div>
-                  <label className={labelClass}>Revenu mensuel net (FCFA) *</label>
+                  <label className={labelClass}>Revenu mensuel net ($CAD) *</label>
                   <input type="number" {...register("monthlyIncome", { valueAsNumber: true })} className={inputClass} />
                   {errors.monthlyIncome && <p className={errorClass}>{errors.monthlyIncome.message}</p>}
                 </div>
@@ -206,7 +206,7 @@ export default function RentalApplicationForm() {
                   {errors.desiredDuration && <p className={errorClass}>{errors.desiredDuration.message}</p>}
                 </div>
                 <div>
-                  <label className={labelClass}>Budget max mensuel (FCFA) *</label>
+                  <label className={labelClass}>Budget max mensuel ($CAD) *</label>
                   <input type="number" {...register("maxBudget", { valueAsNumber: true })} className={inputClass} />
                   {errors.maxBudget && <p className={errorClass}>{errors.maxBudget.message}</p>}
                 </div>
@@ -221,7 +221,7 @@ export default function RentalApplicationForm() {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
                   <label className={labelClass}>Adresse actuelle</label>
-                  <input {...register("currentAddress")} className={inputClass} placeholder="Quartier, ville" />
+                  <input {...register("currentAddress")} className={inputClass} placeholder="Arrondissement, Montréal" />
                 </div>
                 <div>
                   <label className={labelClass}>Statut actuel</label>
@@ -261,7 +261,7 @@ export default function RentalApplicationForm() {
                     <input type="tel" {...register("guarantorPhone")} className={inputClass} />
                   </div>
                   <div>
-                    <label className={labelClass}>Revenu mensuel du garant (FCFA)</label>
+                    <label className={labelClass}>Revenu mensuel du garant ($CAD)</label>
                     <input type="number" {...register("guarantorIncome", { valueAsNumber: true })} className={inputClass} />
                   </div>
                 </div>

@@ -69,7 +69,7 @@ export default function JobApplicationForm() {
           </div>
           <div>
             <label className={labelClass}>Téléphone *</label>
-            <input type="tel" {...register("phone")} className={inputClass} placeholder="+237 6XX XXX XXX" />
+            <input type="tel" {...register("phone")} className={inputClass} placeholder="+1 438 000 0000" />
             {errors.phone && <p className={errorClass}>{errors.phone.message}</p>}
           </div>
           <div>

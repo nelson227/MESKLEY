@@ -119,16 +119,16 @@ export default function ListingForm({ initialData }: ListingFormProps) {
         <h3 className="text-lg font-semibold mb-4">Tarification</h3>
         <div className="grid sm:grid-cols-3 gap-4">
           <div>
-            <label className={labelClass}>Loyer mensuel (FCFA) *</label>
+            <label className={labelClass}>Loyer mensuel ($CAD) *</label>
             <input type="number" {...register("price", { valueAsNumber: true })} className={inputClass} />
             {errors.price && <p className="text-xs text-red-500 mt-1">{errors.price.message}</p>}
           </div>
           <div>
-            <label className={labelClass}>Caution (FCFA) *</label>
+            <label className={labelClass}>Caution ($CAD) *</label>
             <input type="number" {...register("deposit", { valueAsNumber: true })} className={inputClass} />
           </div>
           <div>
-            <label className={labelClass}>Charges (FCFA)</label>
+            <label className={labelClass}>Charges ($CAD)</label>
             <input type="number" {...register("charges", { valueAsNumber: true })} className={inputClass} />
           </div>
           <label className="flex items-center gap-2 col-span-full">
@@ -179,15 +179,15 @@ export default function ListingForm({ initialData }: ListingFormProps) {
         <div className="grid sm:grid-cols-2 gap-4">
           <div className="sm:col-span-2">
             <label className={labelClass}>Adresse *</label>
-            <input {...register("address")} className={inputClass} placeholder="123 Rue de l'Indépendance" />
+            <input {...register("address")} className={inputClass} placeholder="1234 Rue Saint-Denis" />
           </div>
           <div>
             <label className={labelClass}>Ville *</label>
-            <input {...register("city")} className={inputClass} placeholder="Yaoundé" />
+            <input {...register("city")} className={inputClass} placeholder="Montréal" />
           </div>
           <div>
             <label className={labelClass}>Quartier *</label>
-            <input {...register("neighborhood")} className={inputClass} placeholder="Bastos" />
+            <input {...register("neighborhood")} className={inputClass} placeholder="Plateau Mont-Royal" />
           </div>
           <div>
             <label className={labelClass}>Latitude</label>

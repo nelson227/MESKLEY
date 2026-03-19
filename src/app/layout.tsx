@@ -20,29 +20,29 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "MESKLEY LOCATION — Immobilier de Standing au Cameroun",
+    default: "MESKLEY LOCATION — Immobilier de Standing à Montréal",
     template: "%s | MESKLEY LOCATION",
   },
   description:
-    "Trouvez votre logement de standing au Cameroun. Appartements, villas et studios haut de gamme à Yaoundé et Douala. Service personnalisé et accompagnement complet.",
+    "Trouvez votre logement de standing à Montréal. Appartements, condos et studios haut de gamme. Service personnalisé et accompagnement complet.",
   keywords: [
     "location",
     "immobilier",
-    "Cameroun",
-    "Yaoundé",
-    "Douala",
+    "Montréal",
+    "Canada",
+    "Québec",
     "appartement",
-    "villa",
+    "condo",
     "studio",
     "MESKLEY",
   ],
   metadataBase: new URL("https://meskley-location.com"),
   openGraph: {
-    title: "MESKLEY LOCATION — Immobilier de Standing au Cameroun",
+    title: "MESKLEY LOCATION — Immobilier de Standing à Montréal",
     description:
-      "Trouvez votre logement de standing au Cameroun. Appartements, villas et studios haut de gamme.",
+      "Trouvez votre logement de standing à Montréal. Appartements, condos et studios haut de gamme.",
     type: "website",
-    locale: "fr_FR",
+    locale: "fr_CA",
     siteName: "MESKLEY LOCATION",
   },
 };

@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (!listing) return { title: "Logement introuvable" };
   return {
     title: listing.title,
-    description: `${listing.type} à ${listing.neighborhood}, ${listing.city} — ${listing.price?.toLocaleString("fr-FR")} FCFA/mois`,
+    description: `${listing.type} à ${listing.neighborhood}, ${listing.city} — ${listing.price?.toLocaleString("fr-CA")} $/mois`,
   };
 }
 

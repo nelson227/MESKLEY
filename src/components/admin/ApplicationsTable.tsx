@@ -39,7 +39,7 @@ export default function ApplicationsTable({ applications, onStatusChange, onDele
                   <p className="text-gray-900">{app.phone}</p>
                   <p className="text-gray-400 text-xs">{app.email}</p>
                 </td>
-                <td className="px-4 py-3">{app.maxBudget?.toLocaleString("fr-FR")} FCFA</td>
+                <td className="px-4 py-3">{app.maxBudget?.toLocaleString("fr-CA")} $</td>
                 <td className="px-4 py-3">
                   <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(app.status)}`}>
                     {getStatusLabel(app.status)}

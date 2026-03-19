@@ -4,7 +4,7 @@ export const listingSchema = z.object({
   title: z.string().min(5, "Le titre doit contenir au moins 5 caractères").max(200),
   description: z.string().min(20, "La description doit contenir au moins 20 caractères").max(5000),
   type: z.enum(["appartement", "studio", "maison", "villa", "chambre", "duplex"]),
-  price: z.number().positive("Le prix doit être positif").max(10000000),
+  price: z.number().positive("Le prix doit être positif").max(50000),
   deposit: z.number().nonnegative("La caution ne peut pas être négative"),
   charges: z.number().nonnegative().optional().default(0),
   chargesIncluded: z.boolean().optional().default(false),

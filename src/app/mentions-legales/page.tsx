@@ -17,10 +17,10 @@ export default function MentionsLegalesPage() {
           <section>
             <h2 className="text-xl font-semibold text-black">1. Éditeur du site</h2>
             <p>
-              Le site <strong>MESKLEY LOCATION</strong> est édité par MESKLEY LOCATION, société de droit camerounais.<br />
-              Adresse : Yaoundé, Cameroun<br />
+              Le site <strong>MESKLEY LOCATION</strong> est édité par MESKLEY LOCATION, entreprise enregistrée au Québec, Canada.<br />
+              Adresse : Montréal, QC, Canada<br />
               Email : contact@meskley-location.com<br />
-              Téléphone : +237 6XX XXX XXX
+              Téléphone : +1 438 387 1029
             </p>
           </section>
           <section>

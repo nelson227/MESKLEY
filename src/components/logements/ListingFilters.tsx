@@ -108,7 +108,7 @@ export default function ListingFiltersBar({ filters, onFilterChange }: ListingFi
       {showAdvanced && (
         <div className="mt-4 pt-4 border-t border-gray-light grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div>
-            <label className="text-xs text-gray mb-1 block">Prix min (FCFA)</label>
+            <label className="text-xs text-gray mb-1 block">Prix min ($)</label>
             <input
               type="number"
               value={filters.minPrice || ""}
@@ -118,7 +118,7 @@ export default function ListingFiltersBar({ filters, onFilterChange }: ListingFi
             />
           </div>
           <div>
-            <label className="text-xs text-gray mb-1 block">Prix max (FCFA)</label>
+            <label className="text-xs text-gray mb-1 block">Prix max ($)</label>
             <input
               type="number"
               value={filters.maxPrice || ""}
@@ -143,7 +143,7 @@ export default function ListingFiltersBar({ filters, onFilterChange }: ListingFi
               type="text"
               value={filters.city || ""}
               onChange={(e) => updateFilter("city", e.target.value || undefined)}
-              placeholder="Yaoundé"
+              placeholder="Montréal"
               className="w-full px-3 py-2 border border-gray-light rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gold/50"
             />
           </div>

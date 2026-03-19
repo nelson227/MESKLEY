@@ -1,5 +1,5 @@
 export function formatPrice(price: number): string {
-  return new Intl.NumberFormat("fr-FR").format(price) + " FCFA";
+  return new Intl.NumberFormat("fr-CA", { style: "currency", currency: "CAD", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(price);
 }
 
 export function formatDate(date: string): string {
