@@ -1,15 +1,26 @@
 "use client";
 
-import { useState, useEffect, useCallback, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ListingCard from "@/components/logements/ListingCard";
 import ListingFiltersBar from "@/components/logements/ListingFilters";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { apiUrl } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
 import EmptyState from "@/components/shared/EmptyState";
 import { Home } from "lucide-react";
 import type { ListingFilters, ListingCardData } from "@/types/listing";
+
+async function fetchListingsApi(filters: ListingFilters) {
+  const params = new URLSearchParams();
+  Object.entries(filters).forEach(([k, v]) => {
+    if (v !== undefined && v !== null && v !== "") params.set(k, String(v));
+  });
+  const res = await fetch(apiUrl(`/api/logements?${params}`));
+  const data = await res.json();
+  return { listings: (data.data || []) as ListingCardData[], total: data.pagination?.total || 0 };
+}
 
 export default function LogementsPage() {
   return (
@@ -22,9 +33,6 @@ export default function LogementsPage() {
 function LogementsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [listings, setListings] = useState<ListingCardData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [total, setTotal] = useState(0);
   const [filters, setFilters] = useState<ListingFilters>({
     page: 1,
     limit: 12,
@@ -33,29 +41,13 @@ function LogementsContent() {
     sort: (searchParams.get("sort") as ListingFilters["sort"]) || "date_desc",
   });
 
-  const fetchListings = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams();
-      Object.entries(filters).forEach(([k, v]) => {
-        if (v !== undefined && v !== null && v !== "") params.set(k, String(v));
-      });
-      const res = await fetch(apiUrl(`/api/logements?${params}`));
-      const data = await res.json();
-      if (data.success) {
-        setListings(data.data || []);
-        setTotal(data.pagination?.total || 0);
-      }
-    } catch {
-      // Silencieux
-    } finally {
-      setLoading(false);
-    }
-  }, [filters]);
+  const { data, isLoading: loading } = useQuery({
+    queryKey: ["listings", filters],
+    queryFn: () => fetchListingsApi(filters),
+  });
 
-  useEffect(() => {
-    fetchListings();
-  }, [fetchListings]);
+  const listings = data?.listings || [];
+  const total = data?.total || 0;
 
   const handleFilterChange = (newFilters: ListingFilters) => {
     setFilters(newFilters);

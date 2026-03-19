@@ -1,30 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { MapPin, BedDouble, Maximize, ArrowRight } from "lucide-react";
 import { formatPrice, isNewListing, getPropertyTypeLabel } from "@/lib/utils";
 import { apiUrl } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
 import type { ListingCardData } from "@/types/listing";
 
-export default function FeaturedListings() {
-  const [listings, setListings] = useState<ListingCardData[]>([]);
-  const [loading, setLoading] = useState(true);
+async function fetchFeatured() {
+  const res = await fetch(apiUrl("/api/logements?limit=6&sort=date_desc"));
+  const data = await res.json();
+  return data.success ? (data.data as ListingCardData[]) : [];
+}
 
-  useEffect(() => {
-    const fetchFeatured = async () => {
-      try {
-        const res = await fetch(apiUrl("/api/logements?limit=6&sort=date_desc"));
-        const data = await res.json();
-        if (data.success) setListings(data.data || []);
-      } catch {
-        // Silencieux
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchFeatured();
-  }, []);
+export default function FeaturedListings() {
+  const { data: listings = [], isLoading: loading } = useQuery({
+    queryKey: ["listings", "featured"],
+    queryFn: fetchFeatured,
+  });
 
   if (loading) {
     return (
