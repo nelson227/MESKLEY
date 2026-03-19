@@ -50,8 +50,24 @@ export default function FeaturedListings() {
   if (listings.length === 0) return null;
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-20 overflow-hidden">
+      {/* Image de fond de toute la section */}
+      <img
+        aria-hidden="true"
+        src="/fond-de-page.png"
+        alt=""
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          opacity: 0.15,
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Titre */}
         <div className="text-center mb-14">
           <p className="text-gold text-sm uppercase tracking-[3px] mb-3">Notre sélection</p>
@@ -96,23 +112,7 @@ export default function FeaturedListings() {
               </div>
 
               {/* Infos */}
-              <div className="relative p-5" style={{ overflow: "hidden" }}>
-                {/* Logo en fond */}
-                <img
-                  aria-hidden="true"
-                  src="/fond-de-page.png"
-                  alt=""
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    opacity: 0.5,
-                    pointerEvents: "none",
-                    objectFit: "cover",
-                  }}
-                />
-                <div style={{ position: "relative", zIndex: 1 }}>
+              <div className="p-5">
                 <h3 className="text-lg font-semibold text-black mb-3 group-hover:text-gold transition-colors line-clamp-1" style={{ fontFamily: "'Playfair Display', serif" }}>
                   {listing.title}
                 </h3>
@@ -134,7 +134,6 @@ export default function FeaturedListings() {
                   {listing.furnished && (
                     <span className="text-gold text-xs font-medium">Meublé</span>
                   )}
-                </div>
                 </div>
               </div>
             </Link>

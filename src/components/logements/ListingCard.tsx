@@ -49,24 +49,8 @@ export default function ListingCard({ listing }: ListingCardProps) {
         </div>
       </div>
 
-      {/* Infos avec logo en arrière-plan */}
-      <div className="relative p-5" style={{ overflow: "hidden" }}>
-        {/* Logo en fond */}
-        <img
-          aria-hidden="true"
-          src="/fond-de-page.png"
-          alt=""
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            opacity: 0.5,
-            pointerEvents: "none",
-            objectFit: "cover",
-          }}
-        />
-        <div style={{ position: "relative", zIndex: 1 }}>
+      {/* Infos */}
+      <div className="p-5">
           <h3
             className="text-lg font-semibold text-black mb-2 group-hover:text-gold transition-colors line-clamp-1"
             style={{ fontFamily: "'Playfair Display', serif" }}
@@ -90,7 +74,6 @@ export default function ListingCard({ listing }: ListingCardProps) {
               <span className="text-gold text-xs font-medium">Meublé</span>
             )}
           </div>
-        </div>
       </div>
     </Link>
   );
