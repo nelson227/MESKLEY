@@ -53,17 +53,18 @@ export default function ListingCard({ listing }: ListingCardProps) {
       <div className="relative p-5" style={{ overflow: "hidden" }}>
         {/* Image de fond */}
         <img
-          src="/fond%20de%20page.png"
+          src="/fond-de-page.png"
           alt=""
           aria-hidden="true"
           style={{
             position: "absolute",
-            inset: 0,
+            inset: "0",
             width: "100%",
             height: "100%",
             objectFit: "cover",
-            opacity: 0.15,
+            opacity: 0.25,
             pointerEvents: "none",
+            zIndex: 0,
           }}
         />
         <div style={{ position: "relative", zIndex: 1 }}>

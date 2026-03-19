@@ -28,7 +28,7 @@ export default function AdminSidebar() {
       {/* Logo */}
       <div className="p-6 border-b border-white/10">
         <Link href="/admin/dashboard" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <Image src="/fond%20de%20page.png" alt="MESKLEY" width={32} height={32} className="rounded-sm object-contain" />
+          <Image src="/fond-de-page.png" alt="MESKLEY" width={32} height={32} className="rounded-sm object-contain" />
           <span className="font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
             MESKLEY <span className="text-gold">ADMIN</span>
           </span>
@@ -83,7 +83,7 @@ export default function AdminSidebar() {
       {/* Top bar mobile : logo à gauche, hamburger à droite */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-black-deep text-white flex items-center justify-between px-4 py-3 shadow-lg">
         <Link href="/admin" className="flex items-center gap-2">
-          <Image src="/fond%20de%20page.png" alt="MESKLEY" width={28} height={28} className="rounded-sm object-contain" />
+          <Image src="/fond-de-page.png" alt="MESKLEY" width={28} height={28} className="rounded-sm object-contain" />
           <span className="text-sm font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>
             MESKLEY <span className="text-gold">ADMIN</span>
           </span>
