@@ -3,7 +3,7 @@ import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import PhotoGallery from "@/components/logements/PhotoGallery";
 import PropertyDetails from "@/components/logements/PropertyDetails";
 import PropertyFeatures from "@/components/logements/PropertyFeatures";
-import LocationMap from "@/components/logements/LocationMap";
+import LocationMapWrapper from "@/components/logements/LocationMapWrapper";
 import ActionButtons from "@/components/logements/ActionButtons";
 import type { Metadata } from "next";
 
@@ -67,7 +67,7 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
                 <h3 className="font-semibold text-black mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>
                   Localisation
                 </h3>
-                <LocationMap
+                <LocationMapWrapper
                   latitude={listing.latitude}
                   longitude={listing.longitude}
                   title={listing.title}
