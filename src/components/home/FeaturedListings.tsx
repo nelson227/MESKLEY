@@ -96,7 +96,7 @@ export default function FeaturedListings() {
               </div>
 
               {/* Infos */}
-              <div className="relative p-5" style={{ overflow: "hidden" }}>
+              <div className="relative p-5" style={{ overflow: "hidden", background: "linear-gradient(135deg, #FDF6E3 0%, #FFF9EE 50%, #FDF6E3 100%)" }}>
                 {/* Watermark MESKLEY */}
                 <div
                   aria-hidden="true"
@@ -110,7 +110,7 @@ export default function FeaturedListings() {
                     zIndex: 0,
                   }}
                 >
-                  <div style={{ color: "#C8A95E", opacity: 0.12, fontSize: "42px", fontWeight: 800, fontFamily: "serif", letterSpacing: "4px", userSelect: "none", whiteSpace: "nowrap" }}>
+                  <div style={{ color: "#C8A95E", opacity: 0.18, fontSize: "42px", fontWeight: 800, fontFamily: "serif", letterSpacing: "4px", userSelect: "none", whiteSpace: "nowrap" }}>
                     MESKLEY
                   </div>
                 </div>

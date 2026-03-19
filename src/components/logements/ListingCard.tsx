@@ -50,7 +50,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
       </div>
 
       {/* Infos avec logo en arrière-plan */}
-      <div className="relative p-5" style={{ overflow: "hidden", background: "#fff" }}>
+      <div className="relative p-5" style={{ overflow: "hidden", background: "linear-gradient(135deg, #FDF6E3 0%, #FFF9EE 50%, #FDF6E3 100%)" }}>
         {/* Logo SVG watermark - grand, centré, couvre toute la zone */}
         {/* Watermark MESKLEY */}
         <div
@@ -65,7 +65,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
             zIndex: 0,
           }}
         >
-          <div style={{ color: "#C8A95E", opacity: 1, fontSize: "48px", fontWeight: 800, fontFamily: "serif", letterSpacing: "4px", userSelect: "none", whiteSpace: "nowrap" }}>
+          <div style={{ color: "#C8A95E", opacity: 0.18, fontSize: "42px", fontWeight: 800, fontFamily: "serif", letterSpacing: "4px", userSelect: "none", whiteSpace: "nowrap" }}>
             MESKLEY
           </div>
         </div>
