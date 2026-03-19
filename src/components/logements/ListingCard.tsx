@@ -52,33 +52,23 @@ export default function ListingCard({ listing }: ListingCardProps) {
       {/* Infos avec logo en arrière-plan */}
       <div className="relative p-5" style={{ overflow: "hidden", background: "#fff" }}>
         {/* Logo SVG watermark - grand, centré, couvre toute la zone */}
-        <svg
+        {/* Watermark MESKLEY */}
+        <div
           aria-hidden="true"
-          viewBox="0 0 120 120"
           style={{
             position: "absolute",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "180px",
-            height: "180px",
-            opacity: 0.07,
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             pointerEvents: "none",
+            zIndex: 0,
           }}
         >
-          {/* Maison stylisée */}
-          <path d="M60 10 L15 50 L25 50 L25 95 L50 95 L50 65 L70 65 L70 95 L95 95 L95 50 L105 50 Z" fill="#C8A95E" />
-          {/* Cheminée */}
-          <rect x="75" y="22" width="10" height="20" fill="#C8A95E" />
-          {/* Porte */}
-          <rect x="52" y="70" width="16" height="25" rx="2" fill="#fff" />
-          {/* Fenêtre gauche */}
-          <rect x="32" y="55" width="14" height="14" rx="1" fill="#fff" />
-          {/* Fenêtre droite */}
-          <rect x="74" y="55" width="14" height="14" rx="1" fill="#fff" />
-          {/* Texte MESKLEY */}
-          <text x="60" y="112" textAnchor="middle" fontSize="11" fontWeight="bold" fontFamily="serif" fill="#C8A95E">MESKLEY</text>
-        </svg>
+          <div style={{ color: "#C8A95E", opacity: 0.15, fontSize: "48px", fontWeight: 800, fontFamily: "serif", letterSpacing: "4px", userSelect: "none", whiteSpace: "nowrap" }}>
+            MESKLEY
+          </div>
+        </div>
         <div style={{ position: "relative", zIndex: 1 }}>
           <h3
             className="text-lg font-semibold text-black mb-2 group-hover:text-gold transition-colors line-clamp-1"
