@@ -29,4 +29,4 @@ COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 4000
 
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/seed.js; node dist/server.js"]
+CMD ["sh", "-c", "npx prisma db push --skip-generate && node dist/seed.js; node dist/server.js"]

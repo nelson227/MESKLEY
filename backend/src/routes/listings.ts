@@ -62,7 +62,8 @@ router.get("/", async (req, res) => {
     }));
 
     res.json({ success: true, data, pagination: { total, page, limit, pages: Math.ceil(total / limit) } });
-  } catch {
+  } catch (err) {
+    console.error("GET /api/logements error:", err);
     res.status(500).json({ success: false, error: "Erreur serveur" });
   }
 });
