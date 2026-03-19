@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ExternalLink, MessageCircle, FileText, Share2 } from "lucide-react";
 import { SOCIAL_LINKS } from "@/constants/social";
