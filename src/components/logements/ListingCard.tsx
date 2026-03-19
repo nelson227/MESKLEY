@@ -13,7 +13,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
   return (
     <Link
       href={`/logements/${listing._id}`}
-      className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-light"
+      className="group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-light"
     >
       {/* Image */}
       <div className="relative h-56 overflow-hidden">
@@ -49,30 +49,37 @@ export default function ListingCard({ listing }: ListingCardProps) {
         </div>
       </div>
 
-      {/* Infos */}
-      <div className="p-5">
-        <h3
-          className="text-lg font-semibold text-black mb-2 group-hover:text-gold transition-colors line-clamp-1"
-          style={{ fontFamily: "'Playfair Display', serif" }}
-        >
-          {listing.title}
-        </h3>
-        <div className="flex items-center gap-1 text-sm text-gray mb-3">
-          <MapPin className="w-4 h-4 text-gold" />
-          {listing.neighborhood}, {listing.city}
-        </div>
-        <div className="flex items-center gap-5 pt-3 border-t border-gray-light text-sm text-gray">
-          <span className="flex items-center gap-1">
-            <BedDouble className="w-4 h-4" />
-            {listing.bedrooms} ch.
-          </span>
-          <span className="flex items-center gap-1">
-            <Maximize className="w-4 h-4" />
-            {listing.surface} m²
-          </span>
-          {listing.furnished && (
-            <span className="text-gold text-xs font-medium">Meublé</span>
-          )}
+      {/* Infos avec logo en fond */}
+      <div className="relative p-5 overflow-hidden">
+        {/* Logo en arrière-plan */}
+        <div
+          className="absolute inset-0 opacity-[0.04] bg-no-repeat bg-center bg-contain pointer-events-none"
+          style={{ backgroundImage: "url('/logo.png')" }}
+        />
+        <div className="relative">
+          <h3
+            className="text-lg font-semibold text-black mb-2 group-hover:text-gold transition-colors line-clamp-1"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            {listing.title}
+          </h3>
+          <div className="flex items-center gap-1 text-sm text-gray mb-3">
+            <MapPin className="w-4 h-4 text-gold" />
+            {listing.neighborhood}, {listing.city}
+          </div>
+          <div className="flex items-center gap-5 pt-3 border-t border-gray-light text-sm text-gray">
+            <span className="flex items-center gap-1">
+              <BedDouble className="w-4 h-4" />
+              {listing.bedrooms} ch.
+            </span>
+            <span className="flex items-center gap-1">
+              <Maximize className="w-4 h-4" />
+              {listing.surface} m²
+            </span>
+            {listing.furnished && (
+              <span className="text-gold text-xs font-medium">Meublé</span>
+            )}
+          </div>
         </div>
       </div>
     </Link>

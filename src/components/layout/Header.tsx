@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Home } from "lucide-react";
 import { NAV_LINKS } from "@/constants/navigation";
 import MobileMenu from "./MobileMenu";
 
@@ -40,14 +39,13 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <Image
-              src="/logo.png"
-              alt="MESKLEY LOCATION"
-              width={40}
-              height={40}
-              className="rounded-sm object-contain"
-              priority
-            />
+            <div className={`w-9 h-9 rounded-lg flex items-center justify-center transition-colors ${
+              showOpaque ? "bg-gold/10" : "bg-white/10"
+            }`}>
+              <Home className={`w-5 h-5 transition-colors ${
+                showOpaque ? "text-gold" : "text-white"
+              }`} />
+            </div>
             <span
               className={`text-xl font-bold tracking-wide transition-colors ${
                 showOpaque ? "text-black" : "text-white"
